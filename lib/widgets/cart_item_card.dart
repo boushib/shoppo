@@ -28,21 +28,18 @@ class CartItemCard extends StatelessWidget {
       onDismissed: (direction) {
         cart.removeFromCart(productId);
       },
-      background: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
-        child: Container(
-          color: Theme.of(context).errorColor,
-          padding: EdgeInsets.all(20.0),
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-          alignment: Alignment.centerRight,
+      background: Container(
+        color: Theme.of(context).errorColor,
+        padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
         ),
+        alignment: Alignment.centerRight,
       ),
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
         child: Padding(
           padding: EdgeInsets.all(10.0),
           child: ListTile(
