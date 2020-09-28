@@ -53,9 +53,10 @@ class ProductCard extends StatelessWidget {
                 quantity: 1,
                 imageUrl: product.imageUrl,
               );
+              Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(
-                  'Product ordered!',
+                  'Product added to the cart!',
                   textAlign: TextAlign.center,
                 ),
                 backgroundColor: Colors.green,
