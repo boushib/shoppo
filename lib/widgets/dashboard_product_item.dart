@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/screens/edit_product_screen.dart';
 
 class DashboardProductItem extends StatelessWidget {
   final String title;
@@ -27,12 +28,21 @@ class DashboardProductItem extends StatelessWidget {
           ),
           Row(
             children: [
+              SizedBox(
+                width: 70.0,
+              ),
               IconButton(
-                  icon: Icon(Icons.edit), color: Colors.blue, onPressed: () {}),
+                icon: Icon(Icons.edit),
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.pushNamed(context, EditProductScreen.route);
+                },
+              ),
               IconButton(
-                  icon: Icon(Icons.delete),
-                  color: Colors.red,
-                  onPressed: () {}),
+                icon: Icon(Icons.delete),
+                color: Colors.red,
+                onPressed: () {},
+              ),
             ],
           )
         ],

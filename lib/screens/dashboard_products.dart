@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/products.dart';
-import 'package:shop/screens/add_product_screen.dart';
+import 'package:shop/screens/edit_product_screen.dart';
 import 'package:shop/widgets/dashboard_product_item.dart';
 
 class DashboardProductsScreen extends StatelessWidget {
@@ -17,7 +17,8 @@ class DashboardProductsScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.pushNamed(context, AddProductScreen.route);
+              // Navigator.pushNamed(context, AddProductScreen.route);
+              Navigator.pushNamed(context, EditProductScreen.route);
             },
           ),
         ],
