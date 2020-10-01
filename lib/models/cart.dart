@@ -55,9 +55,10 @@ class Cart with ChangeNotifier {
   }
 
   void removeFromCart(String productId) {
-    print('removing $productId');
-    _cart.remove(productId);
-    notifyListeners();
+    if (_cart.containsKey(productId)) {
+      _cart.remove(productId);
+      notifyListeners();
+    }
   }
 
   void removeSingleItemFromCart(String productId) {
