@@ -28,6 +28,7 @@ class DashboardProductsScreen extends StatelessWidget {
         child: ListView.builder(
           itemCount: products.length,
           itemBuilder: (_, i) => DashboardProductItem(
+            id: products[i].id,
             title: products[i].title,
             price: products[i].price,
             image: products[i].imageUrl,

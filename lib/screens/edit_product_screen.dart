@@ -15,14 +15,42 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
   final _productImageController = TextEditingController();
   final _form = GlobalKey<FormState>();
+  bool _isInit = false;
+
+  Map _initialValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    // 'imageUrl': '',
+  };
 
   Product _product = Product(
-    id: DateTime.now().toString(),
+    id: null,
     title: '',
     description: '',
     price: 0,
     imageUrl: '',
   );
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      final _productId = ModalRoute.of(context).settings.arguments as String;
+      _isInit = true;
+      if (_productId != null) {
+        _product = Provider.of<ProductsProvider>(context, listen: false)
+            .getProductById(_productId);
+        _initialValues = {
+          'title': _product.title,
+          'description': _product.description,
+          'price': _product.price.toString(),
+          // 'imageUrl': _product.imageUrl,
+        };
+        _productImageController.text = _product.imageUrl;
+      }
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
@@ -36,8 +64,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
     final isValid = _form.currentState.validate();
     if (isValid) {
       _form.currentState.save();
-      Provider.of<ProductsProvider>(context, listen: false)
-          .addProduct(_product);
+      final productsProvider =
+          Provider.of<ProductsProvider>(context, listen: false);
+      if (_product.id == null)
+        productsProvider.addProduct(_product);
+      else
+        productsProvider.updateProduct(_product);
       Navigator.of(context).pop();
     }
   }
@@ -56,6 +88,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: _initialValues['title'],
                   decoration: const InputDecoration(
                     hintText: 'Product Title',
                     hintStyle: TextStyle(
@@ -75,6 +108,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       description: _product.description,
                       price: _product.price,
                       imageUrl: _product.imageUrl,
+                      isFavorite: _product.isFavorite,
                     );
                   },
                   validator: (value) {
@@ -86,6 +120,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   height: 10.0,
                 ),
                 TextFormField(
+                  initialValue: _initialValues['price'],
                   decoration: const InputDecoration(
                     hintText: 'Product Price',
                     hintStyle: TextStyle(
@@ -107,6 +142,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       description: _product.description,
                       price: double.parse(value),
                       imageUrl: _product.imageUrl,
+                      isFavorite: _product.isFavorite,
                     );
                   },
                   validator: (value) {
@@ -126,6 +162,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   height: 10.0,
                 ),
                 TextFormField(
+                  initialValue: _initialValues['description'],
                   maxLines: 3,
                   decoration: const InputDecoration(
                     hintText: 'Product Description',
@@ -146,6 +183,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       description: value,
                       price: _product.price,
                       imageUrl: _product.imageUrl,
+                      isFavorite: _product.isFavorite,
                     );
                   },
                   validator: (value) {
@@ -180,6 +218,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        // you can't use both initialValue & controller
+                        // initialValue: _initialValues['imageUrl'],
                         decoration: const InputDecoration(
                           hintText: 'Product Image',
                           hintStyle: TextStyle(
@@ -200,6 +240,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             description: _product.description,
                             price: _product.price,
                             imageUrl: value,
+                            isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {

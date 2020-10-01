@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shop/screens/edit_product_screen.dart';
 
 class DashboardProductItem extends StatelessWidget {
+  final String id;
   final String title;
   final double price;
   final String image;
 
   DashboardProductItem({
+    @required this.id,
     @required this.title,
     @required this.price,
     @required this.image,
@@ -35,7 +37,11 @@ class DashboardProductItem extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 color: Colors.blue,
                 onPressed: () {
-                  Navigator.pushNamed(context, EditProductScreen.route);
+                  Navigator.pushNamed(
+                    context,
+                    EditProductScreen.route,
+                    arguments: id,
+                  );
                 },
               ),
               IconButton(

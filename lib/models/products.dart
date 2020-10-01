@@ -47,10 +47,25 @@ class ProductsProvider with ChangeNotifier {
     return _products.where((p) => p.isFavorite).toList();
   }
 
-  void addProduct(product) {
+  void addProduct(Product p) {
     // _products.add(product);
+    Product product = Product(
+      id: DateTime.now().toString(),
+      title: p.title,
+      description: p.description,
+      price: p.price,
+      imageUrl: p.imageUrl,
+    );
     _products.insert(0, product);
     notifyListeners();
+  }
+
+  void updateProduct(Product product) {
+    final productIndex = _products.indexWhere((p) => p.id == product.id);
+    if (productIndex >= 0) {
+      _products[productIndex] = product;
+      notifyListeners();
+    }
   }
 
   Product getProductById(id) {
