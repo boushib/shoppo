@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shop/models/product.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ProductsProvider with ChangeNotifier {
+  final url = 'https://flutter-shop-a416a.firebaseio.com/products.json';
+
   List<Product> _products = [
     Product(
       id: 'p1',
@@ -47,10 +51,20 @@ class ProductsProvider with ChangeNotifier {
     return _products.where((p) => p.isFavorite).toList();
   }
 
-  void addProduct(Product p) {
-    // _products.add(product);
+  void addProduct(Product p) async {
+    var res = await http.post(
+      url,
+      body: json.encode({
+        'title': p.title,
+        'description': p.description,
+        'price': p.price,
+        'imageUrl': p.imageUrl,
+        'isFavorite': false,
+      }),
+    );
+
     Product product = Product(
-      id: DateTime.now().toString(),
+      id: json.decode(res.body)['name'],
       title: p.title,
       description: p.description,
       price: p.price,
