@@ -51,7 +51,7 @@ class ProductsProvider with ChangeNotifier {
     return _products.where((p) => p.isFavorite).toList();
   }
 
-  void addProduct(Product p) async {
+  Future<void> addProduct(Product p) async {
     var res = await http.post(
       url,
       body: json.encode({
@@ -72,6 +72,7 @@ class ProductsProvider with ChangeNotifier {
     );
     _products.insert(0, product);
     notifyListeners();
+    return product.id;
   }
 
   void updateProduct(Product product) {
