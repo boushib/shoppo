@@ -71,7 +71,25 @@ class _EditProductScreenState extends State<EditProductScreen> {
         setState(() {
           _isBusy = true;
         });
-        await productsProvider.addProduct(_product);
+        try {
+          await productsProvider.addProduct(_product);
+        } catch (err) {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('Error'),
+              content: Text('Some error happened!'),
+              actions: [
+                FlatButton(
+                  child: Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ),
+          );
+        }
         setState(() {
           _isBusy = false;
         });
