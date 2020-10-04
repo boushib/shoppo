@@ -16,7 +16,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _productImageController = TextEditingController();
   final _form = GlobalKey<FormState>();
   bool _isInit = false;
-  bool _isBusy = false;
+  bool _isLoading = false;
 
   Map _initialValues = {
     'title': '',
@@ -67,10 +67,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _form.currentState.save();
       final productsProvider =
           Provider.of<ProductsProvider>(context, listen: false);
+      setState(() {
+        _isLoading = true;
+      });
       if (_product.id == null) {
-        setState(() {
-          _isBusy = true;
-        });
         try {
           await productsProvider.addProduct(_product);
         } catch (err) {
@@ -90,11 +90,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ),
           );
         }
-        setState(() {
-          _isBusy = false;
-        });
-      } else
-        productsProvider.updateProduct(_product);
+      } else {
+        await productsProvider.updateProduct(_product);
+      }
+      setState(() {
+        _isLoading = false;
+      });
       Navigator.of(context).pop();
     }
   }
@@ -105,7 +106,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       appBar: AppBar(
         title: Text('Edit product'),
       ),
-      body: _isBusy
+      body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
