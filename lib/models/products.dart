@@ -95,6 +95,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
+    print('gettings products..');
     try {
       var res = await http.get(url);
       final Map<String, dynamic> productsData = json.decode(res.body);

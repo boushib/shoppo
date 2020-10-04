@@ -7,6 +7,10 @@ import 'package:shop/widgets/dashboard_product_item.dart';
 class DashboardProductsScreen extends StatelessWidget {
   static const route = 'dashboard-products';
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<ProductsProvider>(context, listen: false).fetchProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ProductsProvider>(context).products;
@@ -23,15 +27,18 @@ class DashboardProductsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: ListView.builder(
-          itemCount: products.length,
-          itemBuilder: (_, i) => DashboardProductItem(
-            id: products[i].id,
-            title: products[i].title,
-            price: products[i].price,
-            image: products[i].imageUrl,
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (_, i) => DashboardProductItem(
+              id: products[i].id,
+              title: products[i].title,
+              price: products[i].price,
+              image: products[i].imageUrl,
+            ),
           ),
         ),
       ),
