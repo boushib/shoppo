@@ -115,23 +115,24 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
-    print('gettings products..');
     try {
       var res = await http.get(url);
       final Map<String, dynamic> productsData = json.decode(res.body);
       List<Product> products = [];
-      productsData.forEach((productId, productData) {
-        products.add(
-          Product(
-            id: productId,
-            title: productData['title'],
-            description: productData['description'],
-            price: productData['price'],
-            imageUrl: productData['imageUrl'],
-            isFavorite: productData['isFavorite'],
-          ),
-        );
-      });
+      if (productsData != null) {
+        productsData.forEach((productId, productData) {
+          products.add(
+            Product(
+              id: productId,
+              title: productData['title'],
+              description: productData['description'],
+              price: productData['price'],
+              imageUrl: productData['imageUrl'],
+              isFavorite: productData['isFavorite'],
+            ),
+          );
+        });
+      }
       _products = products;
       notifyListeners();
     } catch (err) {

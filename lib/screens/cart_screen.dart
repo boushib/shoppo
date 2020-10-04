@@ -47,24 +47,7 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            FlatButton(
-              onPressed: () {
-                print('Ordering..');
-                orders.addOrder(
-                    products: cart.cart.values.toList(), total: cart.total);
-                cart.clearCart();
-                Navigator.pushNamed(context, OrdersScreen.route);
-              },
-              child: Text(
-                'Order Now'.toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(.8),
-                  fontSize: 12.0,
-                  letterSpacing: .5,
-                ),
-              ),
-              color: Theme.of(context).primaryColor,
-            ),
+            OrderButton(cart: cart, orders: orders),
             Expanded(
               child: ListView.builder(
                 itemCount: cart.cart.length,
@@ -84,6 +67,53 @@ class CartScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    @required this.cart,
+    @required this.orders,
+  });
+
+  final Cart cart;
+  final Orders orders;
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: (widget.cart.cart.length == 0 || _isLoading)
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await Provider.of<Orders>(context, listen: false).addOrder(
+                  products: widget.cart.cart.values.toList(),
+                  total: widget.cart.total);
+              setState(() {
+                _isLoading = false;
+              });
+              Provider.of<Cart>(context, listen: false).clearCart();
+              Navigator.pushNamed(context, OrdersScreen.route);
+            },
+      child: Text(
+        'Order Now'.toUpperCase(),
+        style: TextStyle(
+          color: Colors.white.withOpacity(.8),
+          fontSize: 12.0,
+          letterSpacing: .5,
+        ),
+      ),
+      color: Theme.of(context).primaryColor,
     );
   }
 }
