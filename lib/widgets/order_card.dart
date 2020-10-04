@@ -20,7 +20,7 @@ class _OrderCardState extends State<OrderCard> {
       child: Column(
         children: [
           ListTile(
-            title: Text('Total \$${widget.order.amount}'),
+            title: Text('Total \$${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: Text(
                 'Ordered at: ${DateFormat("dd MM yyyy hh:mm").format(widget.order.createdAt)}'),
             trailing: IconButton(
