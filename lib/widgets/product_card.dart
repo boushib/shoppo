@@ -5,6 +5,8 @@ import 'package:shop/screens/product_details_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
+  const ProductCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
@@ -12,20 +14,6 @@ class ProductCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.0),
       child: GridTile(
-        child: GestureDetector(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-          ),
-          onTap: () {
-            print('tapping product..');
-            Navigator.pushNamed(
-              context,
-              ProductDetailsScreen.route,
-              arguments: product.id,
-            );
-          },
-        ),
         footer: GridTileBar(
           backgroundColor: Colors.black.withOpacity(.8),
           title: Text(product.title),
@@ -43,7 +31,7 @@ class ProductCard extends StatelessWidget {
           trailing: IconButton(
             icon: Icon(
               Icons.shopping_cart,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
               cart.addToCart(
@@ -53,9 +41,9 @@ class ProductCard extends StatelessWidget {
                 quantity: 1,
                 imageUrl: product.imageUrl,
               );
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Product added to the cart!'),
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('Product added to the cart!'),
                 backgroundColor: Colors.green,
                 action: SnackBarAction(
                   label: 'Undo',
@@ -67,6 +55,19 @@ class ProductCard extends StatelessWidget {
               ));
             },
           ),
+        ),
+        child: GestureDetector(
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ProductDetailsScreen.route,
+              arguments: product.id,
+            );
+          },
         ),
       ),
     );

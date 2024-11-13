@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 class OrderCard extends StatefulWidget {
   final Order order;
 
-  OrderCard({@required this.order});
+  const OrderCard({super.key, required this.order});
 
   @override
-  _OrderCardState createState() => _OrderCardState();
+  OrderCardState createState() => OrderCardState();
 }
 
-class _OrderCardState extends State<OrderCard> {
+class OrderCardState extends State<OrderCard> {
   bool _expanded = false;
 
   @override
@@ -32,10 +32,7 @@ class _OrderCardState extends State<OrderCard> {
               },
             ),
           ),
-          if (_expanded)
-            Container(
-              child: Text('details...'),
-            ),
+          if (_expanded) const Text('details...'),
         ],
       ),
     );

@@ -9,11 +9,12 @@ class DashboardProductItem extends StatelessWidget {
   final double price;
   final String image;
 
-  DashboardProductItem({
-    @required this.id,
-    @required this.title,
-    @required this.price,
-    @required this.image,
+  const DashboardProductItem({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.image,
   });
 
   @override
@@ -25,18 +26,18 @@ class DashboardProductItem extends StatelessWidget {
             title: Text(title),
             subtitle: Text('Price: \$$price'),
             leading: CircleAvatar(
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               backgroundImage: NetworkImage(image),
               radius: 24.0,
             ),
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 70.0,
               ),
               IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 color: Colors.blue,
                 onPressed: () {
                   Navigator.pushNamed(
@@ -47,7 +48,7 @@ class DashboardProductItem extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Colors.red,
                 onPressed: () {
                   Provider.of<ProductsProvider>(context, listen: false)

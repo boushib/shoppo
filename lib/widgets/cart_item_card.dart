@@ -10,13 +10,14 @@ class CartItemCard extends StatelessWidget {
   final double total;
   final String imageUrl;
 
-  CartItemCard({
-    @required this.id,
-    @required this.productId,
-    @required this.title,
-    @required this.quantity,
-    @required this.total,
-    @required this.imageUrl,
+  const CartItemCard({
+    super.key,
+    required this.id,
+    required this.productId,
+    required this.title,
+    required this.quantity,
+    required this.total,
+    required this.imageUrl,
   });
 
   @override
@@ -32,12 +33,13 @@ class CartItemCard extends StatelessWidget {
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('Remove Product from Cart'),
-            content: Text('Are you sure you want to remove this product?'),
-            insetPadding: EdgeInsets.all(20.0),
+            title: const Text('Remove Product from Cart'),
+            content:
+                const Text('Are you sure you want to remove this product?'),
+            insetPadding: const EdgeInsets.all(20.0),
             actions: [
-              FlatButton(
-                child: Text(
+              TextButton(
+                child: const Text(
                   'Dismiss',
                   style: TextStyle(color: Colors.black),
                 ),
@@ -45,8 +47,8 @@ class CartItemCard extends StatelessWidget {
                   Navigator.of(ctx).pop(false);
                 },
               ),
-              FlatButton(
-                child: Text('Confirm'),
+              TextButton(
+                child: const Text('Confirm'),
                 onPressed: () {
                   Navigator.of(ctx).pop(true);
                 },
@@ -56,24 +58,24 @@ class CartItemCard extends StatelessWidget {
         );
       },
       background: Container(
-        color: Theme.of(context).errorColor,
-        padding: EdgeInsets.all(20.0),
-        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
-        child: Icon(
-          Icons.delete,
-          color: Colors.white,
-        ),
+        //color: Theme.of(context).red,
+        padding: const EdgeInsets.all(20.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
         alignment: Alignment.centerRight,
+        child: const Icon(
+          color: Colors.white,
+          Icons.delete,
+        ),
       ),
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: ListTile(
             leading: Image.network(imageUrl),
             title: Text(
               title,
-              style: TextStyle(fontSize: 14.0),
+              style: const TextStyle(fontSize: 14.0),
             ),
             subtitle: Text('Total: \$${total.toStringAsFixed(2)}'),
             trailing: Text('x$quantity'),

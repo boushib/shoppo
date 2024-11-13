@@ -1,3 +1,1 @@
-main(List<String> args) {
-  print('hello');
-}
+main(List<String> args) {}

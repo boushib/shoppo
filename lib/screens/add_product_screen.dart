@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 class AddProductScreen extends StatefulWidget {
   static const route = 'add-product';
 
+  const AddProductScreen({super.key});
+
   @override
-  _AddProductScreenState createState() => _AddProductScreenState();
+  AddProductScreenState createState() => AddProductScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a new product'),
+        title: const Text('Add a new product'),
       ),
-      body: Padding(
+      body: const Padding(
         padding: EdgeInsets.all(20.0),
-        child: Container(
-          child: Text('Add a new product'),
-        ),
+        child: Text('Add a new product'),
       ),
     );
   }

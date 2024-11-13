@@ -7,11 +7,13 @@ import 'package:shop/widgets/order_card.dart';
 class OrdersScreen extends StatefulWidget {
   static const route = 'orders';
 
+  const OrdersScreen({super.key});
+
   @override
-  _OrdersScreenState createState() => _OrdersScreenState();
+  OrdersScreenState createState() => OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> {
+class OrdersScreenState extends State<OrdersScreen> {
   bool _isLoading = false;
 
   @override
@@ -28,17 +30,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
     final orders = Provider.of<Orders>(context).orders;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Orders'),
+        title: const Text('Orders'),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
-              padding: EdgeInsets.all(20.0),
-              child: orders.length == 0
-                  ? Text('No orders!')
+              padding: const EdgeInsets.all(20.0),
+              child: orders.isEmpty
+                  ? const Text('No orders!')
                   : ListView.builder(
                       itemCount: orders.length,
                       itemBuilder: (_, i) => OrderCard(order: orders[i]),

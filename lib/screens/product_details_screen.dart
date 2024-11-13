@@ -5,9 +5,12 @@ import 'package:provider/provider.dart';
 class ProductDetailsScreen extends StatelessWidget {
   static const route = 'product-details';
 
+  const ProductDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final String productId = ModalRoute.of(context).settings.arguments;
+    //final String productId = ModalRoute.of(context).settings.arguments;
+    const String productId = "123";
     final product = Provider.of<ProductsProvider>(context, listen: false)
         .getProductById(productId);
     return Scaffold(
@@ -24,28 +27,28 @@ class ProductDetailsScreen extends StatelessWidget {
               width: double.infinity,
             ),
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.title,
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Text('Price: \$${product.price}'),
-                  FlatButton(
-                    child: Text(
+                  TextButton(
+                    child: const Text(
                       'Order Now',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
                       //
                     },
-                    color: Theme.of(context).primaryColor,
+                    //color: Theme.of(context).primaryColor,
                   )
                 ],
               ),

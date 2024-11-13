@@ -7,6 +7,8 @@ import 'package:shop/widgets/dashboard_product_item.dart';
 class DashboardProductsScreen extends StatelessWidget {
   static const route = 'dashboard-products';
 
+  const DashboardProductsScreen({super.key});
+
   Future<void> _refreshProducts(BuildContext context) async {
     await Provider.of<ProductsProvider>(context, listen: false).fetchProducts();
   }
@@ -30,7 +32,7 @@ class DashboardProductsScreen extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () => _refreshProducts(context),
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: ListView.builder(
             itemCount: products.length,
             itemBuilder: (_, i) => DashboardProductItem(

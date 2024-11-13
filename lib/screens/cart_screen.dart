@@ -8,32 +8,35 @@ import 'package:shop/widgets/cart_item_card.dart';
 class CartScreen extends StatelessWidget {
   static const route = 'cart';
 
+  const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context, listen: false);
     final orders = Provider.of<Orders>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Cart'),
+        title: const Text('Your Cart'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Card(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Total',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Chip(
                       label: Text(
                         '\$${cart.total.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14.0,
                         ),
@@ -44,7 +47,7 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             OrderButton(cart: cart, orders: orders),
@@ -73,30 +76,31 @@ class CartScreen extends StatelessWidget {
 
 class OrderButton extends StatefulWidget {
   const OrderButton({
-    @required this.cart,
-    @required this.orders,
+    super.key,
+    required this.cart,
+    required this.orders,
   });
 
   final Cart cart;
   final Orders orders;
 
   @override
-  _OrderButtonState createState() => _OrderButtonState();
+  OrderButtonState createState() => OrderButtonState();
 }
 
-class _OrderButtonState extends State<OrderButton> {
+class OrderButtonState extends State<OrderButton> {
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: (widget.cart.cart.length == 0 || _isLoading)
+    return TextButton(
+      onPressed: (widget.cart.cart.isEmpty || _isLoading)
           ? null
           : () async {
               setState(() {
                 _isLoading = true;
               });
-              await Provider.of<Orders>(context, listen: false).addOrder(
+              Provider.of<Orders>(context, listen: false).addOrder(
                   products: widget.cart.cart.values.toList(),
                   total: widget.cart.total);
               setState(() {
@@ -105,6 +109,7 @@ class _OrderButtonState extends State<OrderButton> {
               Provider.of<Cart>(context, listen: false).clearCart();
               Navigator.pushNamed(context, OrdersScreen.route);
             },
+      //color: Theme.of(context).primaryColor,
       child: Text(
         'Order Now'.toUpperCase(),
         style: TextStyle(
@@ -113,7 +118,6 @@ class _OrderButtonState extends State<OrderButton> {
           letterSpacing: .5,
         ),
       ),
-      color: Theme.of(context).primaryColor,
     );
   }
 }

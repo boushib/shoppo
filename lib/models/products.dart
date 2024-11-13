@@ -1,48 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shop/models/product.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ProductsProvider with ChangeNotifier {
   final url = 'https://flutter-shop-a416a.firebaseio.com/products.json';
-
-  // List<Product> _products = [
-  //   Product(
-  //     id: 'p1',
-  //     title: 'Hohner 6 String Acoustic Guitar, Right Handed, Natural (HAG250P)',
-  //     description: 'This is product 1 description..',
-  //     price: 59.99,
-  //     imageUrl:
-  //         'https://images-na.ssl-images-amazon.com/images/I/71VvXiIDQwL._AC_SL1500_.jpg',
-  //   ),
-  //   Product(
-  //     id: 'p2',
-  //     title:
-  //         '30" Natural Wood Guitar With Case and Accessories for Kids/Boys/Beginners',
-  //     description: 'This is product 2 description..',
-  //     price: 49.99,
-  //     imageUrl:
-  //         'https://images-na.ssl-images-amazon.com/images/I/71YR8JFj-5L._AC_SL1500_.jpg',
-  //   ),
-  //   Product(
-  //     id: 'p3',
-  //     title:
-  //         'Music Alley 6 String Junior Guitar, Right Handed, Natural (MA34-N)',
-  //     description: 'This is product 1 description..',
-  //     price: 46.99,
-  //     imageUrl:
-  //         'https://images-na.ssl-images-amazon.com/images/I/81tQhEEtiEL._AC_SL1500_.jpg',
-  //   ),
-  //   Product(
-  //     id: 'p4',
-  //     title: 'Music Alley MA-34-BL Acoustic Beginner Guitar Pack, Blue',
-  //     description: 'This is product 1 description..',
-  //     price: 79.99,
-  //     imageUrl:
-  //         'https://images-na.ssl-images-amazon.com/images/I/8141isfCxJL._AC_SL1500_.jpg',
-  //   ),
-  // ];
-
   List<Product> _products = [];
 
   List<Product> get products {
@@ -53,9 +15,9 @@ class ProductsProvider with ChangeNotifier {
     return _products.where((p) => p.isFavorite).toList();
   }
 
-  Future<void> addProduct(Product p) async {
+  Future<String> addProduct(Product p) async {
     var res = await http.post(
-      url,
+      url as Uri,
       body: json.encode({
         'title': p.title,
         'description': p.description,
@@ -84,7 +46,7 @@ class ProductsProvider with ChangeNotifier {
           'https://flutter-shop-a416a.firebaseio.com/products/${product.id}.json';
       try {
         await http.patch(
-          url,
+          url as Uri,
           body: json.encode({
             'title': product.title,
             'description': product.description,
@@ -95,7 +57,9 @@ class ProductsProvider with ChangeNotifier {
         _products[productIndex] = product;
         notifyListeners();
       } catch (err) {
-        print(err);
+        if (kDebugMode) {
+          print(err);
+        }
       }
     }
   }
@@ -103,7 +67,7 @@ class ProductsProvider with ChangeNotifier {
   void deleteProduct(String productId) async {
     final url =
         'https://flutter-shop-a416a.firebaseio.com/products/$productId.json';
-    await http.delete(url);
+    await http.delete(url as Uri);
     // @todo
     // try optimistic delete/update
     _products.removeWhere((p) => p.id == productId);
@@ -116,27 +80,27 @@ class ProductsProvider with ChangeNotifier {
 
   Future<void> fetchProducts() async {
     try {
-      var res = await http.get(url);
+      var res = await http.get(url as Uri);
       final Map<String, dynamic> productsData = json.decode(res.body);
       List<Product> products = [];
-      if (productsData != null) {
-        productsData.forEach((productId, productData) {
-          products.add(
-            Product(
-              id: productId,
-              title: productData['title'],
-              description: productData['description'],
-              price: productData['price'],
-              imageUrl: productData['imageUrl'],
-              isFavorite: productData['isFavorite'],
-            ),
-          );
-        });
-      }
+      productsData.forEach((productId, productData) {
+        products.add(
+          Product(
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            price: productData['price'],
+            imageUrl: productData['imageUrl'],
+            isFavorite: productData['isFavorite'],
+          ),
+        );
+      });
       _products = products;
       notifyListeners();
     } catch (err) {
-      print(err);
+      if (kDebugMode) {
+        print(err);
+      }
     }
   }
 }

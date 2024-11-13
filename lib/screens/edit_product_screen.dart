@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:shop/models/product.dart';
-import 'package:provider/provider.dart';
-import 'package:shop/models/products.dart';
+import "package:flutter/material.dart";
+import "package:shop/models/product.dart";
+import "package:provider/provider.dart";
+import "package:shop/models/products.dart";
 
 class EditProductScreen extends StatefulWidget {
-  static const route = 'edit-product';
+  static const route = "edit-product";
+
+  const EditProductScreen({super.key});
 
   @override
-  _EditProductScreenState createState() => _EditProductScreenState();
+  EditProductScreenState createState() => EditProductScreenState();
 }
 
-class _EditProductScreenState extends State<EditProductScreen> {
+class EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _productImageController = TextEditingController();
@@ -19,36 +21,34 @@ class _EditProductScreenState extends State<EditProductScreen> {
   bool _isLoading = false;
 
   Map _initialValues = {
-    'title': '',
-    'description': '',
-    'price': '',
-    // 'imageUrl': '',
+    "title": "",
+    "description": "",
+    "price": "",
+    // "imageUrl": "",
   };
 
   Product _product = Product(
-    id: null,
-    title: '',
-    description: '',
+    id: "",
+    title: "",
+    description: "",
     price: 0,
-    imageUrl: '',
+    imageUrl: "",
   );
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final _productId = ModalRoute.of(context).settings.arguments as String;
+      final productId = ModalRoute.of(context)!.settings.arguments as String;
       _isInit = true;
-      if (_productId != null) {
-        _product = Provider.of<ProductsProvider>(context, listen: false)
-            .getProductById(_productId);
-        _initialValues = {
-          'title': _product.title,
-          'description': _product.description,
-          'price': _product.price.toString(),
-          // 'imageUrl': _product.imageUrl,
-        };
-        _productImageController.text = _product.imageUrl;
-      }
+      _product = Provider.of<ProductsProvider>(context, listen: false)
+          .getProductById(productId);
+      _initialValues = {
+        "title": _product.title,
+        "description": _product.description,
+        "price": _product.price.toString(),
+        // "imageUrl": _product.imageUrl,
+      };
+      _productImageController.text = _product.imageUrl;
     }
     super.didChangeDependencies();
   }
@@ -62,37 +62,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void submitForm() async {
-    final isValid = _form.currentState.validate();
+    final isValid = _form.currentState!.validate();
     if (isValid) {
-      _form.currentState.save();
+      _form.currentState?.save();
       final productsProvider =
           Provider.of<ProductsProvider>(context, listen: false);
       setState(() {
         _isLoading = true;
       });
-      if (_product.id == null) {
-        try {
-          await productsProvider.addProduct(_product);
-        } catch (err) {
-          showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text('Error'),
-              content: Text('Some error happened!'),
-              actions: [
-                FlatButton(
-                  child: Text('Dismiss'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ),
-          );
-        }
-      } else {
-        await productsProvider.updateProduct(_product);
-      }
+      await productsProvider.updateProduct(_product);
       setState(() {
         _isLoading = false;
       });
@@ -104,23 +82,23 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit product'),
+        title: const Text("Edit product"),
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Form(
               key: _form,
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       TextFormField(
-                        initialValue: _initialValues['title'],
+                        initialValue: _initialValues["title"],
                         decoration: const InputDecoration(
-                          hintText: 'Product Title',
+                          hintText: "Product Title",
                           hintStyle: TextStyle(
                             fontSize: 14.0,
                           ),
@@ -135,7 +113,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         onSaved: (value) {
                           _product = Product(
                             id: _product.id,
-                            title: value,
+                            title: value!,
                             description: _product.description,
                             price: _product.price,
                             imageUrl: _product.imageUrl,
@@ -143,17 +121,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           );
                         },
                         validator: (value) {
-                          if (value.isEmpty) return 'Title field is required';
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
-                        initialValue: _initialValues['price'],
+                        initialValue: _initialValues["price"],
                         decoration: const InputDecoration(
-                          hintText: 'Product Price',
+                          hintText: "Product Price",
                           hintStyle: TextStyle(
                             fontSize: 14.0,
                           ),
@@ -173,32 +150,32 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             id: _product.id,
                             title: _product.title,
                             description: _product.description,
-                            price: double.parse(value),
+                            price: double.parse(value!),
                             imageUrl: _product.imageUrl,
                             isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Price field is required';
+                          if (value!.isEmpty) {
+                            return "Price field is required";
                           }
                           if (double.tryParse(value) == null) {
-                            return 'Please provide a valid price';
+                            return "Please provide a valid price";
                           }
                           if (double.parse(value) <= 0) {
-                            return 'Price should be a positive number';
+                            return "Price should be a positive number";
                           }
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
-                        initialValue: _initialValues['description'],
+                        initialValue: _initialValues["description"],
                         maxLines: 3,
                         decoration: const InputDecoration(
-                          hintText: 'Product Description',
+                          hintText: "Product Description",
                           hintStyle: TextStyle(
                             fontSize: 14.0,
                           ),
@@ -213,15 +190,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           _product = Product(
                             id: _product.id,
                             title: _product.title,
-                            description: value,
+                            description: value!,
                             price: _product.price,
                             imageUrl: _product.imageUrl,
                             isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {
-                          if (value.isEmpty)
-                            return 'Description field is required';
+                          if (value!.isEmpty) {
+                            return "Description field is required";
+                          }
                           return null;
                         },
                       ),
@@ -230,7 +208,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           Container(
                             height: 100.0,
                             width: 100.0,
-                            margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                            margin:
+                                const EdgeInsets.only(top: 10.0, right: 10.0),
                             // padding: EdgeInsets.all(12.0),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -238,12 +217,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 color: Colors.grey,
                               ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(4.0)),
+                                  const BorderRadius.all(Radius.circular(4.0)),
                             ),
                             child: _productImageController.text.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
-                                      'Please enter an image URL!',
+                                      "Please enter an image URL!",
                                     ),
                                   )
                                 : Image.network(
@@ -253,10 +232,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              // you can't use both initialValue & controller
-                              // initialValue: _initialValues['imageUrl'],
+                              // you can"t use both initialValue & controller
+                              // initialValue: _initialValues["imageUrl"],
                               decoration: const InputDecoration(
-                                hintText: 'Product Image',
+                                hintText: "Product Image",
                                 hintStyle: TextStyle(
                                   fontSize: 14.0,
                                 ),
@@ -274,32 +253,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   title: _product.title,
                                   description: _product.description,
                                   price: _product.price,
-                                  imageUrl: value,
+                                  imageUrl: value!,
                                   isFavorite: _product.isFavorite,
                                 );
                               },
                               validator: (value) {
-                                if (value.isEmpty)
-                                  return 'Description field is required';
-                                // if (!value.endsWith('.png') &&
-                                //     !value.endsWith('.jpg')) {
-                                //   return 'Please provide a valid image url';
-                                // }
+                                if (value!.isEmpty) {
+                                  return "Description field is required";
+                                }
                                 return null;
                               },
                             ),
                           )
                         ],
                       ),
-                      ButtonBar(
+                      OverflowBar(
                         children: [
-                          FlatButton(
-                            child: Text('Cancel'),
+                          TextButton(
+                            child: const Text("Cancel"),
                             onPressed: () {},
                           ),
-                          RaisedButton(
-                            color: Colors.green,
-                            child: Text('Save'),
+                          ElevatedButton(
+                            //color: Colors.green,
+                            child: const Text("Save"),
                             onPressed: () => submitForm(),
                           ),
                         ],

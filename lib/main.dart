@@ -12,10 +12,12 @@ import 'package:shop/screens/products_overview_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,18 +37,18 @@ class App extends StatelessWidget {
         title: 'Shop',
         theme: ThemeData(
             primarySwatch: Colors.red,
-            accentColor: Colors.amber,
+            //accentColor: Colors.amber,,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             fontFamily: 'Open Sans'),
-        home: ProductsOverviewScreen(),
+        home: const ProductsOverviewScreen(),
         routes: {
-          ProductsOverviewScreen.route: (_) => ProductsOverviewScreen(),
-          ProductDetailsScreen.route: (_) => ProductDetailsScreen(),
-          CartScreen.route: (_) => CartScreen(),
-          OrdersScreen.route: (_) => OrdersScreen(),
-          DashboardProductsScreen.route: (_) => DashboardProductsScreen(),
-          AddProductScreen.route: (_) => AddProductScreen(),
-          EditProductScreen.route: (_) => EditProductScreen(),
+          ProductsOverviewScreen.route: (_) => const ProductsOverviewScreen(),
+          ProductDetailsScreen.route: (_) => const ProductDetailsScreen(),
+          CartScreen.route: (_) => const CartScreen(),
+          OrdersScreen.route: (_) => const OrdersScreen(),
+          DashboardProductsScreen.route: (_) => const DashboardProductsScreen(),
+          AddProductScreen.route: (_) => const AddProductScreen(),
+          EditProductScreen.route: (_) => const EditProductScreen(),
         },
       ),
     );

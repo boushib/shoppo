@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:shop/models/cart_item.dart';
 
 class Order {
@@ -8,9 +7,9 @@ class Order {
   final DateTime createdAt;
 
   Order({
-    @required this.id,
-    @required this.amount,
-    @required this.products,
-    @required this.createdAt,
+    required this.id,
+    required this.amount,
+    required this.products,
+    required this.createdAt,
   });
 }
