@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/models/products.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/widgets/label.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   static const route = 'product-details';
@@ -72,68 +73,28 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Title",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .color
-                                  ?.withOpacity(0.6),
-                            ),
-                          ),
+                          const Label(label: "Title"),
                           const SizedBox(height: 8),
                           Text(
                             product.title,
                             style: const TextStyle(fontSize: 18.0),
                           ),
                           const SizedBox(height: 20.0),
-                          Text(
-                            "Price",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .color
-                                  ?.withOpacity(0.6),
-                            ),
-                          ),
+                          const Label(label: "Price"),
                           const SizedBox(height: 8),
                           Text(
                             '\$${product.price}',
                             style: const TextStyle(fontSize: 18.0),
                           ),
                           const SizedBox(height: 20.0),
-                          Text(
-                            "Brand",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .color
-                                  ?.withOpacity(0.6),
-                            ),
-                          ),
+                          const Label(label: "Brand"),
                           const SizedBox(height: 8),
                           Text(
                             product.brand,
                             style: const TextStyle(fontSize: 18.0),
                           ),
                           const SizedBox(height: 20.0),
-                          Text(
-                            "Description",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .color
-                                  ?.withOpacity(0.6),
-                            ),
-                          ),
+                          const Label(label: "Description"),
                           const SizedBox(height: 8),
                           Text(
                             product.description,
@@ -143,6 +104,10 @@ class ProductDetailsScreen extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 16,
+                              ),
                             ),
                             onPressed: () {
                               //
