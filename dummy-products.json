@@ -1,0 +1,35 @@
+[
+  {
+    "title": "iPhone 16 Pro Max",
+    "description": "16GB RAM, 256GB storage, and 48MP camera.",
+    "price": 1499.99,
+    "category": "Electronics",
+    "brand": "Apple",
+    "image_url": "https://www.apple.com/v/iphone/home/bx/images/overview/select/iphone_15__buwagff0mwwi_xlarge_2x.png",
+    "quantity": 200,
+    "created_at": "2024-11-15T18:20:47.274957",
+    "updated_at": "2024-11-15T18:20:47.275609"
+  },
+  {
+    "title": "iPhone 16",
+    "description": "8GB RAM, 64GB storage, and 48MP camera.",
+    "price": 999.99,
+    "category": "Electronics",
+    "brand": "Apple",
+    "image_url": "https://www.apple.com/v/iphone/home/bx/images/overview/select/iphone_14__eso1fig4ci6a_xlarge_2x.png",
+    "quantity": 100,
+    "created_at": "2024-11-15T18:20:47.274957",
+    "updated_at": "2024-11-15T18:20:47.275609"
+  },
+  {
+    "title": "Galaxy S24",
+    "description": "12GB RAM, 256GB storage, and 108MP camera.",
+    "price": 1099.99,
+    "category": "Electronics",
+    "brand": "Samsung",
+    "image_url": "https://www.cnet.com/a/img/resize/a1487d531aa111fc684d3103d9d3d3912472b09e/hub/2024/01/24/73947584-67eb-4e99-b66d-207b4c0e1eda/samsung-galaxy-s24-ultra-1887.jpg?auto=webp&fit=crop&height=1200&width=1200",
+    "quantity": 150,
+    "created_at": "2024-11-15T18:20:47.274957",
+    "updated_at": "2024-11-15T18:20:47.275609"
+  }
+]
