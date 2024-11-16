@@ -4,16 +4,16 @@ import 'package:shop/models/orders.dart';
 import 'package:shop/widgets/app_drawer.dart';
 import 'package:shop/widgets/order_card.dart';
 
-class OrdersScreen extends StatefulWidget {
+class OrderScreen extends StatefulWidget {
   static const route = 'orders';
 
-  const OrdersScreen({super.key});
+  const OrderScreen({super.key});
 
   @override
-  OrdersScreenState createState() => OrdersScreenState();
+  OrderScreenState createState() => OrderScreenState();
 }
 
-class OrdersScreenState extends State<OrdersScreen> {
+class OrderScreenState extends State<OrderScreen> {
   bool _isLoading = false;
 
   @override

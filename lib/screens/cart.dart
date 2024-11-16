@@ -112,7 +112,7 @@ class OrderButtonState extends State<OrderButton> {
                 _isLoading = false;
               });
               Provider.of<Cart>(context, listen: false).clearCart();
-              Navigator.pushNamed(context, OrdersScreen.route);
+              Navigator.pushNamed(context, OrderScreen.route);
             },
       //color: Theme.of(context).primaryColor,
       child: Text(

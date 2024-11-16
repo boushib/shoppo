@@ -56,7 +56,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, OrdersScreen.route);
+                Navigator.pushNamed(context, OrderScreen.route);
               },
             ),
             ListTile(

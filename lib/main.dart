@@ -34,7 +34,7 @@ class App extends StatelessWidget {
           ProductsOverviewScreen.route: (_) => const ProductsOverviewScreen(),
           ProductDetailsScreen.route: (_) => const ProductDetailsScreen(),
           CartScreen.route: (_) => const CartScreen(),
-          OrdersScreen.route: (_) => const OrdersScreen(),
+          OrderScreen.route: (_) => const OrderScreen(),
           DashboardScreen.route: (_) => const DashboardScreen(),
           AddProductScreen.route: (_) => const AddProductScreen(),
           EditProductScreen.route: (_) => const EditProductScreen(),

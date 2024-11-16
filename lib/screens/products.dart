@@ -52,16 +52,21 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         foregroundColor: Colors.white,
         actions: [
           Consumer<Cart>(
-            builder: (_, cart, __) => Badge(
-              label: Text(
-                cart.cartItemCount.toString(),
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).primaryColor,
+            builder: (_, cart, __) => GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, CartScreen.route);
+              },
+              child: Badge(
+                label: Text(
+                  cart.cartItemCount.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.all(4),
               ),
-              backgroundColor: Colors.white,
-              padding: const EdgeInsets.all(4),
             ),
             child: IconButton(
               icon: const Icon(Icons.shopping_cart, color: Colors.white),
