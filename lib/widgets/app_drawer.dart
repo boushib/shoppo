@@ -44,7 +44,7 @@ class AppDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(
-                Icons.payment,
+                Icons.receipt,
                 size: 20,
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
@@ -66,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
               title: Text(
-                'My products',
+                'Dashboard',
                 style: TextStyle(
                   fontSize: 18,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
@@ -74,6 +74,40 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pushNamed(context, DashboardScreen.route);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.settings,
+                size: 20,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+              onTap: () {
+                //
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.help,
+                size: 20,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+              title: Text(
+                'Support',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+              onTap: () {
+                //
               },
             ),
           ],
