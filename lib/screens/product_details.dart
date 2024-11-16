@@ -15,21 +15,32 @@ class ProductDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        // The title will be dynamically updated once the product data is available
         title: Consumer<ProductsProvider>(
           builder: (ctx, productsProvider, _) {
             return FutureBuilder(
               future: productsProvider.getProductById(product_id),
               builder: (ctx, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text('Loading...');
+                  return const Text(
+                    'Loading...',
+                    style: TextStyle(fontSize: 20),
+                  );
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text(
+                    'Error: ${snapshot.error}',
+                    style: const TextStyle(fontSize: 20),
+                  );
                 } else if (!snapshot.hasData) {
-                  return const Text('Product not found');
+                  return const Text(
+                    'Product not found',
+                    style: TextStyle(fontSize: 20),
+                  );
                 } else {
                   var product = snapshot.data;
-                  return Text(product?.title ?? 'Product Details');
+                  return Text(
+                    product?.title ?? 'Product Details',
+                    style: const TextStyle(fontSize: 20),
+                  );
                 }
               },
             );

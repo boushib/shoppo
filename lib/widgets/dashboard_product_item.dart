@@ -20,42 +20,89 @@ class DashboardProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white.withOpacity(0.05),
+      elevation: 0,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ListTile(
-            title: Text(title),
-            subtitle: Text('Price: \$$price'),
-            leading: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              backgroundImage: NetworkImage(image),
-              radius: 24.0,
+          Container(
+            color: Colors.white.withOpacity(0.05),
+            child: Image.network(
+              image,
+              height: 280,
+              width: double.infinity,
+              fit: BoxFit.contain,
             ),
           ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 70.0,
-              ),
-              IconButton(
-                icon: const Icon(Icons.edit),
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    EditProductScreen.route,
-                    arguments: id,
-                  );
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                color: Colors.red,
-                onPressed: () {
-                  Provider.of<ProductsProvider>(context, listen: false)
-                      .deleteProduct(id);
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "\$$price",
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.edit),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      label: const Text(
+                        'Edit',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          EditProductScreen.route,
+                          arguments: id,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 12),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.delete),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      label: const Text(
+                        'Delete',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      onPressed: () {
+                        Provider.of<ProductsProvider>(
+                          context,
+                          listen: false,
+                        ).deleteProduct(id);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -92,7 +92,10 @@ class EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit product"),
+        title: const Text(
+          "Edit product",
+          style: TextStyle(fontSize: 20),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),

@@ -18,7 +18,10 @@ class DashboardScreen extends StatelessWidget {
     final products = Provider.of<ProductsProvider>(context).products;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Products'),
+        title: const Text(
+          'Dashboard',
+          style: TextStyle(fontSize: 20),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         actions: [

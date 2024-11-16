@@ -16,7 +16,10 @@ class AppDrawer extends StatelessWidget {
             AppBar(
               title: const Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Shoppo'),
+                child: Text(
+                  'Shoppo',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,

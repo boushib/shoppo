@@ -16,7 +16,10 @@ class CartScreen extends StatelessWidget {
     final orders = Provider.of<Orders>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Cart'),
+        title: const Text(
+          'Your Cart',
+          style: TextStyle(fontSize: 20),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),

@@ -14,7 +14,10 @@ class AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new product'),
+        title: const Text(
+          'Add a new product',
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       body: const Padding(
         padding: EdgeInsets.all(20.0),

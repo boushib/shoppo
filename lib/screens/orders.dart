@@ -30,7 +30,10 @@ class OrdersScreenState extends State<OrdersScreen> {
     final orders = Provider.of<Orders>(context).orders;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orders'),
+        title: const Text(
+          'Orders',
+          style: TextStyle(fontSize: 20),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
