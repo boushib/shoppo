@@ -9,35 +9,73 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          AppBar(
-            title: const Text('Menu'),
-            automaticallyImplyLeading: false,
-          ),
-          // Divider(),
-          ListTile(
-            leading: const Icon(Icons.shop),
-            title: const Text('Shop'),
-            onTap: () {
-              Navigator.pushNamed(context, ProductsOverviewScreen.route);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.payment),
-            title: const Text('Orders'),
-            onTap: () {
-              Navigator.pushNamed(context, OrdersScreen.route);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.shop_two),
-            title: const Text('My products'),
-            onTap: () {
-              Navigator.pushNamed(context, DashboardProductsScreen.route);
-            },
-          ),
-        ],
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Column(
+          children: [
+            AppBar(
+              title: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Shoppo'),
+              ),
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+            ),
+            // Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.shop,
+                size: 20,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+              title: Text(
+                'Shop',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, ProductsOverviewScreen.route);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.payment,
+                size: 20,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+              title: Text(
+                'Orders',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, OrdersScreen.route);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.shop_two,
+                size: 20,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+              title: Text(
+                'My products',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, DashboardProductsScreen.route);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

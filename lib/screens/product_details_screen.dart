@@ -16,6 +16,8 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: FutureBuilder(
         future: Provider.of<ProductsProvider>(

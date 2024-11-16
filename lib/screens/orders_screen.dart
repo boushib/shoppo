@@ -31,6 +31,8 @@ class OrdersScreenState extends State<OrdersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Orders'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
       ),
       drawer: const AppDrawer(),
       body: _isLoading
@@ -40,7 +42,12 @@ class OrdersScreenState extends State<OrdersScreen> {
           : Padding(
               padding: const EdgeInsets.all(20.0),
               child: orders.isEmpty
-                  ? const Text('No orders!')
+                  ? const Center(
+                      child: Text(
+                        'No orders yet!',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )
                   : ListView.builder(
                       itemCount: orders.length,
                       itemBuilder: (_, i) => OrderCard(order: orders[i]),

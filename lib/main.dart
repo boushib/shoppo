@@ -47,9 +47,24 @@ class App extends StatelessWidget {
 
 ThemeData getTheme() {
   return ThemeData(
-    primarySwatch: Colors.red,
+    useMaterial3: true,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+    primaryColor: const Color(0xFFF95F32),
+    scaffoldBackgroundColor: const Color(0xFF161B28),
+    textTheme: const TextTheme(
+      bodySmall: TextStyle(
+        fontSize: 16,
+        color: Colors.white,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 24,
+        color: Colors.white,
+      ),
+      bodyLarge: TextStyle(
+        fontSize: 36,
+        color: Colors.white,
+      ),
+    ),
     fontFamily: 'Space Mono',
   );
 }

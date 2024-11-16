@@ -19,6 +19,8 @@ class DashboardProductsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Products'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),

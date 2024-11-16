@@ -45,11 +45,18 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
         actions: [
           Consumer<Cart>(
             builder: (_, cart, __) => Badge(
-              label: Text(cart.cartItemCount.toString()),
-              backgroundColor: Colors.purple,
+              label: Text(
+                cart.cartItemCount.toString(),
+                style: TextStyle(
+                    fontSize: 14, color: Theme.of(context).primaryColor),
+              ),
+              backgroundColor: Colors.white,
+              padding: const EdgeInsets.all(4),
             ),
             child: IconButton(
               icon: const Icon(Icons.shopping_cart, color: Colors.white),

@@ -93,6 +93,8 @@ class EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit product"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: _isLoading
           ? const Center(
