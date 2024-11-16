@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop/screens/dashboard_products.dart';
-import 'package:shop/screens/orders_screen.dart';
-import 'package:shop/screens/products_overview_screen.dart';
+import 'package:shop/screens/dashboard.dart';
+import 'package:shop/screens/orders.dart';
+import 'package:shop/screens/products.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -22,7 +22,6 @@ class AppDrawer extends StatelessWidget {
               foregroundColor: Colors.white,
               automaticallyImplyLeading: false,
             ),
-            // Divider(),
             ListTile(
               leading: Icon(
                 Icons.shop,
@@ -71,7 +70,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, DashboardProductsScreen.route);
+                Navigator.pushNamed(context, DashboardScreen.route);
               },
             ),
           ],

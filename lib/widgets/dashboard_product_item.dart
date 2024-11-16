@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop/models/products.dart';
-import 'package:shop/screens/edit_product_screen.dart';
+import 'package:shop/screens/edit_product.dart';
 import 'package:provider/provider.dart';
 
 class DashboardProductItem extends StatelessWidget {

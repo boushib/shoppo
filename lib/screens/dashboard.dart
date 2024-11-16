@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/products.dart';
-import 'package:shop/screens/edit_product_screen.dart';
+import 'package:shop/screens/edit_product.dart';
 import 'package:shop/widgets/dashboard_product_item.dart';
 
-class DashboardProductsScreen extends StatelessWidget {
+class DashboardScreen extends StatelessWidget {
   static const route = 'dashboard-products';
 
-  const DashboardProductsScreen({super.key});
+  const DashboardScreen({super.key});
 
   Future<void> _refreshProducts(BuildContext context) async {
     await Provider.of<ProductsProvider>(context, listen: false).fetchProducts();

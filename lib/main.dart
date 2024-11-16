@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/orders.dart';
 import 'package:shop/models/products.dart';
-import 'package:shop/screens/add_product_screen.dart';
-import 'package:shop/screens/cart_screen.dart';
-import 'package:shop/screens/dashboard_products.dart';
-import 'package:shop/screens/edit_product_screen.dart';
-import 'package:shop/screens/orders_screen.dart';
-import 'package:shop/screens/product_details_screen.dart';
-import 'package:shop/screens/products_overview_screen.dart';
+import 'package:shop/screens/add_product.dart';
+import 'package:shop/screens/cart.dart';
+import 'package:shop/screens/dashboard.dart';
+import 'package:shop/screens/edit_product.dart';
+import 'package:shop/screens/orders.dart';
+import 'package:shop/screens/product_details.dart';
+import 'package:shop/screens/products.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -35,7 +35,7 @@ class App extends StatelessWidget {
           ProductDetailsScreen.route: (_) => const ProductDetailsScreen(),
           CartScreen.route: (_) => const CartScreen(),
           OrdersScreen.route: (_) => const OrdersScreen(),
-          DashboardProductsScreen.route: (_) => const DashboardProductsScreen(),
+          DashboardScreen.route: (_) => const DashboardScreen(),
           AddProductScreen.route: (_) => const AddProductScreen(),
           EditProductScreen.route: (_) => const EditProductScreen(),
         },
