@@ -104,17 +104,23 @@ class ProductCard extends StatelessWidget {
                             image_url: product.image_url,
                           );
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: const Text('Product added to the cart!'),
-                            backgroundColor: Colors.green,
-                            action: SnackBarAction(
-                              label: 'Undo',
-                              textColor: Colors.white,
-                              onPressed: () {
-                                cart.removeSingleItemFromCart(product.id);
-                              },
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                'Product added to the cart!',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              backgroundColor: Colors.green.withOpacity(0.95),
+                              action: SnackBarAction(
+                                label: 'Undo',
+                                textColor: Colors.white,
+                                onPressed: () {
+                                  cart.removeSingleItemFromCart(product.id);
+                                },
+                              ),
+                              duration: const Duration(seconds: 4),
                             ),
-                          ));
+                          );
                         },
                       ),
                     ],
