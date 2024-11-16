@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/models/product.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/products.dart';
+import 'package:shop/widgets/form_input.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const route = "edit-product";
@@ -108,165 +109,58 @@ class EditProductScreenState extends State<EditProductScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      TextFormField(
-                        initialValue: _initialValues["title"],
-                        decoration: InputDecoration(
-                          hintText: "Title",
-                          hintStyle: const TextStyle(fontSize: 16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 14.0,
-                            horizontal: 16.0,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.03),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .primaryColor, // Change border color when focused
-                              width: 2.0, // Set border width when focused
-                            ),
-                          ),
-                        ),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: const TextStyle(fontSize: 16),
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_priceFocusNode);
-                        },
+                      FormInput(
+                        initialValue: _initialValues["title"]!,
+                        hintText: "Title",
                         onSaved: (value) {
                           _product = _product.copyWith(title: value!);
                         },
                         validator: (value) =>
                             value!.isEmpty ? 'Title is required' : null,
-                      ),
-                      const SizedBox(height: 10.0),
-                      TextFormField(
-                        initialValue: _initialValues["price"],
-                        decoration: InputDecoration(
-                          hintText: "Price",
-                          hintStyle: const TextStyle(fontSize: 16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 14.0,
-                            horizontal: 16.0,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.03),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .primaryColor, // Change border color when focused
-                              width: 2.0, // Set border width when focused
-                            ),
-                          ),
-                        ),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: const TextStyle(fontSize: 16),
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        focusNode: _priceFocusNode,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(
-                            _descriptionFocusNode,
-                          );
-                        },
-                        onSaved: (value) {
-                          _product =
-                              _product.copyWith(price: double.parse(value!));
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Price is required";
-                          }
-                          if (double.tryParse(value) == null) {
-                            return "Please provide a valid price";
-                          }
-                          if (double.parse(value) <= 0) {
-                            return "Price should be positive";
-                          }
-                          return null;
-                        },
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
                       ),
                       const SizedBox(height: 10.0),
-                      TextFormField(
-                        initialValue: _initialValues["description"],
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          hintText: "Description",
-                          hintStyle: const TextStyle(fontSize: 16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 14.0,
-                            horizontal: 16.0,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.03),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .primaryColor, // Change border color when focused
-                              width: 2.0, // Set border width when focused
-                            ),
-                          ),
-                        ),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: const TextStyle(fontSize: 16),
-                        keyboardType: TextInputType.multiline,
-                        focusNode: _descriptionFocusNode,
+                      FormInput(
+                        initialValue: _initialValues["price"]!,
+                        hintText: "Price",
+                        onSaved: (value) {
+                          _product = _product.copyWith(
+                              price: double.tryParse(value!) ?? 0.0);
+                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Price is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
+                      ),
+                      const SizedBox(height: 10.0),
+                      FormInput(
+                        initialValue: _initialValues["description"]!,
+                        maxLines: 4,
+                        hintText: "Description",
                         onSaved: (value) {
                           _product = _product.copyWith(description: value!);
                         },
                         validator: (value) =>
                             value!.isEmpty ? 'Description is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
                       ),
                       const SizedBox(height: 10.0),
-                      TextFormField(
-                        controller: _productImageController,
-                        decoration: InputDecoration(
-                          hintText: "Image URL",
-                          hintStyle: const TextStyle(fontSize: 16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 14.0,
-                            horizontal: 16.0,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.03),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .primaryColor, // Change border color when focused
-                              width: 2.0, // Set border width when focused
-                            ),
-                          ),
-                        ),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: const TextStyle(fontSize: 16),
-                        keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.done,
-                        onFieldSubmitted: (_) => submitForm(),
+                      FormInput(
+                        initialValue: _initialValues["image_url"]!,
+                        hintText: "Image URL",
                         onSaved: (value) {
                           _product = _product.copyWith(image_url: value!);
                         },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Image URL is required";
-                          }
-                          return null;
-                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Image URL is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
                       ),
                       const SizedBox(height: 24.0),
                       Row(
