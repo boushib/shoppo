@@ -9,13 +9,31 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String product_id = ModalRoute.of(
-      context,
-    )?.settings.arguments as String;
+    final String product_id =
+        ModalRoute.of(context)?.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Details'),
+        // The title will be dynamically updated once the product data is available
+        title: Consumer<ProductsProvider>(
+          builder: (ctx, productsProvider, _) {
+            return FutureBuilder(
+              future: productsProvider.getProductById(product_id),
+              builder: (ctx, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading...');
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData) {
+                  return const Text('Product not found');
+                } else {
+                  var product = snapshot.data;
+                  return Text(product?.title ?? 'Product Details');
+                }
+              },
+            );
+          },
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
@@ -49,28 +67,96 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.title,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Title",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .color
+                                  ?.withOpacity(0.6),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Text('Price: \$${product.price}'),
-                        TextButton(
-                          child: const Text(
-                            'Order Now',
-                            style: TextStyle(color: Colors.white),
+                          const SizedBox(height: 8),
+                          Text(
+                            product.title,
+                            style: const TextStyle(fontSize: 18.0),
                           ),
-                          onPressed: () {
-                            //
-                          },
-                        )
-                      ],
+                          const SizedBox(height: 20.0),
+                          Text(
+                            "Price",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .color
+                                  ?.withOpacity(0.6),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '\$${product.price}',
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            "Brand",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .color
+                                  ?.withOpacity(0.6),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            product.brand,
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            "Description",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .color
+                                  ?.withOpacity(0.6),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            product.description,
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
+                          const SizedBox(height: 20.0),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () {
+                              //
+                            },
+                            child: const Text(
+                              'Order Now',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
