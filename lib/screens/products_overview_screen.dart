@@ -5,7 +5,6 @@ import 'package:shop/screens/cart_screen.dart';
 import 'package:shop/widgets/app_drawer.dart';
 import 'package:shop/widgets/products_overview_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/src/badge.dart' as badges;
 
 enum Filter { all, favorites }
 
@@ -48,8 +47,9 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         title: const Text('Products'),
         actions: [
           Consumer<Cart>(
-            builder: (_, cart, __) => badges.Badge(
-              badgeContent: Text(cart.cartItemCount.toString()),
+            builder: (_, cart, __) => Badge(
+              label: Text(cart.cartItemCount.toString()),
+              backgroundColor: Colors.purple,
             ),
             child: IconButton(
               icon: const Icon(Icons.shopping_cart, color: Colors.white),
