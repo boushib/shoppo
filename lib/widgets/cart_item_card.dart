@@ -22,43 +22,16 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
+    final cart = Provider.of<Cart>(context, listen: false);
+
     return Dismissible(
       key: ValueKey(id),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
         cart.removeFromCart(product_id);
       },
-      confirmDismiss: (direction) {
-        return showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text('Remove Product from Cart'),
-            content:
-                const Text('Are you sure you want to remove this product?'),
-            insetPadding: const EdgeInsets.all(20.0),
-            actions: [
-              TextButton(
-                child: const Text(
-                  'Dismiss',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.of(ctx).pop(false);
-                },
-              ),
-              TextButton(
-                child: const Text('Confirm'),
-                onPressed: () {
-                  Navigator.of(ctx).pop(true);
-                },
-              ),
-            ],
-          ),
-        );
-      },
       background: Container(
-        //color: Theme.of(context).red,
+        color: Theme.of(context).primaryColor,
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
         alignment: Alignment.centerRight,
@@ -67,20 +40,47 @@ class CartItemCard extends StatelessWidget {
           Icons.delete,
         ),
       ),
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ListTile(
-            leading: Image.network(image_url),
-            title: Text(
-              title,
-              style: const TextStyle(fontSize: 14.0),
-            ),
-            subtitle: Text('Total: \$${total.toStringAsFixed(2)}'),
-            trailing: Text('x$quantity'),
-          ),
-        ),
+      child: Consumer<Cart>(
+        builder: (ctx, cart, child) {
+          return cart.cart.containsKey(product_id)
+              ? Card(
+                  color: Colors.white.withOpacity(.04),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 0,
+                  ),
+                  elevation: 0,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                    child: ListTile(
+                      leading: Image.network(image_url),
+                      title: Text(
+                        title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '\$${total.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                      trailing: Text(
+                        'x$quantity',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container();
+        },
       ),
     );
   }
