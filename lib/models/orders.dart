@@ -1,8 +1,6 @@
-import "dart:convert";
 import "package:flutter/foundation.dart";
 import "package:shop/models/cart_item.dart";
 import "package:shop/models/order.dart";
-import "package:http/http.dart" as http;
 import "package:shop/services/mongo.dart";
 
 class Orders with ChangeNotifier {
