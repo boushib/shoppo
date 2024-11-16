@@ -18,7 +18,7 @@ class ProductsOverviewGrid extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, crossAxisSpacing: 16.0, mainAxisSpacing: 16.0),
+          crossAxisCount: 1, crossAxisSpacing: 16.0, mainAxisSpacing: 16.0),
       // use the .value approach
       // if you're not instantiating a new object
       // but instead using an existing one
