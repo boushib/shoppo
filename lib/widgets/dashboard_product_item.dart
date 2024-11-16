@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/models/products.dart';
 import 'package:shop/screens/edit_product.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/widgets/button.dart';
 
 class DashboardProductItem extends StatelessWidget {
   final String id;
@@ -57,19 +58,9 @@ class DashboardProductItem extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.edit),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                      ),
-                      label: const Text(
-                        'Edit',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                    Button(
+                      text: "Edit",
+                      icon: Icons.edit,
                       onPressed: () {
                         Navigator.pushNamed(
                           context,
@@ -79,19 +70,9 @@ class DashboardProductItem extends StatelessWidget {
                       },
                     ),
                     const SizedBox(width: 12),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.delete),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                      ),
-                      label: const Text(
-                        'Delete',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                    Button(
+                      text: "Delete",
+                      icon: Icons.delete,
                       onPressed: () {
                         Provider.of<ProductsProvider>(
                           context,

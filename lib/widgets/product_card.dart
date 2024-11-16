@@ -3,6 +3,7 @@ import 'package:shop/models/cart.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/screens/product_details.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/widgets/button.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key});
@@ -64,65 +65,44 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.favorite),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        label: const Text(
-                          'Like',
-                          style: TextStyle(fontSize: 16),
-                        ),
+                      Button(
+                        icon: Icons.favorite,
+                        text: "Like",
                         onPressed: () {
-                          // TODO - Toggle favorites
+                          //
                         },
                       ),
                       const SizedBox(width: 12),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.shopping_bag),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        label: const Text(
-                          'Add to Cart',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          cart.addToCart(
-                            product_id: product.id,
-                            title: product.title,
-                            price: product.price,
-                            quantity: 1,
-                            image_url: product.image_url,
-                          );
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'Product added to the cart!',
-                                style: TextStyle(fontSize: 16),
+                      Button(
+                          text: "Add to Cart",
+                          icon: Icons.shopping_bag,
+                          onPressed: () {
+                            cart.addToCart(
+                              product_id: product.id,
+                              title: product.title,
+                              price: product.price,
+                              quantity: 1,
+                              image_url: product.image_url,
+                            );
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'Product added to the cart!',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                backgroundColor: Colors.green.withOpacity(0.95),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    cart.removeSingleItemFromCart(product.id);
+                                  },
+                                ),
+                                duration: const Duration(seconds: 4),
                               ),
-                              backgroundColor: Colors.green.withOpacity(0.95),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  cart.removeSingleItemFromCart(product.id);
-                                },
-                              ),
-                              duration: const Duration(seconds: 4),
-                            ),
-                          );
-                        },
-                      ),
+                            );
+                          })
                     ],
                   )
                 ],

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/orders.dart';
 import 'package:shop/screens/orders.dart';
+import 'package:shop/widgets/button.dart';
 import 'package:shop/widgets/cart_item_card.dart';
 
 class CartScreen extends StatelessWidget {
@@ -27,35 +28,25 @@ class CartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Card(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    Chip(
-                      label: Text(
-                        '\$${cart.total.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      backgroundColor: Theme.of(context).primaryColor,
-                    )
-                  ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Total',
+                  style: TextStyle(fontSize: 16.0),
                 ),
-              ),
+                Text(
+                  '\$${cart.total.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 20.0,
             ),
-            OrderButton(cart: cart, orders: orders),
             Expanded(
               child: ListView.builder(
                 itemCount: cart.cart.length,
@@ -72,6 +63,8 @@ class CartScreen extends StatelessWidget {
                 },
               ),
             ),
+            OrderButton(cart: cart, orders: orders),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -98,31 +91,27 @@ class OrderButtonState extends State<OrderButton> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: (widget.cart.cart.isEmpty || _isLoading)
-          ? null
-          : () async {
-              setState(() {
-                _isLoading = true;
-              });
-              Provider.of<Orders>(context, listen: false).addOrder(
-                  products: widget.cart.cart.values.toList(),
-                  total: widget.cart.total);
-              setState(() {
-                _isLoading = false;
-              });
-              Provider.of<Cart>(context, listen: false).clearCart();
-              Navigator.pushNamed(context, OrderScreen.route);
-            },
-      //color: Theme.of(context).primaryColor,
-      child: Text(
-        'Order Now'.toUpperCase(),
-        style: TextStyle(
-          color: Colors.white.withOpacity(.8),
-          fontSize: 12.0,
-          letterSpacing: .5,
-        ),
-      ),
+    return Button(
+      onPressed: () async {
+        if (widget.cart.cart.isEmpty || _isLoading) return;
+
+        setState(() {
+          _isLoading = true;
+        });
+
+        Provider.of<Orders>(context, listen: false).addOrder(
+          products: widget.cart.cart.values.toList(),
+          total: widget.cart.total,
+        );
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        Provider.of<Cart>(context, listen: false).clearCart();
+        Navigator.pushNamed(context, OrderScreen.route);
+      },
+      text: "Order Now",
     );
   }
 }

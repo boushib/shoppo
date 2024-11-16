@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/models/products.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/widgets/button.dart';
 import 'package:shop/widgets/label.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -112,25 +113,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             style: const TextStyle(fontSize: 18.0),
                           ),
                           const SizedBox(height: 20.0),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
-                              ),
-                            ),
-                            onPressed: () {
-                              //
-                            },
-                            child: const Text(
-                              'Order Now',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
+                          Button(text: "Order Now", onPressed: () {}),
                         ],
                       ),
                     ),

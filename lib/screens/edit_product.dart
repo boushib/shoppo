@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/models/product.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/products.dart';
+import 'package:shop/widgets/button.dart';
 import 'package:shop/widgets/form_input.dart';
 
 class EditProductScreen extends StatefulWidget {
@@ -208,43 +209,26 @@ class EditProductScreenState extends State<EditProductScreen> {
                       const SizedBox(height: 24.0),
                       Row(
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
-                              ),
-                            ),
+                          Button(
+                            text: "Cancel",
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 16,
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 28,
+                              vertical: 16,
                             ),
+                            isPrimary: false,
                           ),
                           const SizedBox(width: 16),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
-                              ),
-                            ),
+                          Button(
+                            text: "Save",
                             onPressed: submitForm,
-                            child: const Text(
-                              'Save',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 28,
+                              vertical: 16,
                             ),
-                          ),
+                          )
                         ],
                       )
                     ],
