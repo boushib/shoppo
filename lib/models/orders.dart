@@ -29,15 +29,6 @@ class Orders with ChangeNotifier {
         "created_at": DateTime.now().toIso8601String(),
       });
 
-      // final order = Order(
-      //   id: json.decode(res.body)["name"],
-      //   amount: total,
-      //   products: products,
-      //   createdAt: DateTime.now(),
-      // );
-      // _orders.insert(0, order);
-
-      // clear cart
       notifyListeners();
     } catch (err) {
       if (kDebugMode) {
@@ -53,7 +44,7 @@ class Orders with ChangeNotifier {
       List<CartItem> products = (order["products"] as List<dynamic>)
           .map((item) => CartItem(
                 id: "",
-                product_id: item["product_id"],
+                product_id: item["product_id"].toString(),
                 title: item["title"],
                 quantity: item["quantity"],
                 price: item["price"],
@@ -61,7 +52,7 @@ class Orders with ChangeNotifier {
               ))
           .toList();
       orders.add(Order(
-        id: order["_id"],
+        id: order["_id"].toString(),
         amount: order["amount"],
         products: products,
         created_at: DateTime.parse(order["created_at"]),

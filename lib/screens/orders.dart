@@ -39,8 +39,10 @@ class OrderScreenState extends State<OrderScreen> {
       ),
       drawer: const AppDrawer(),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
             )
           : Padding(
               padding: const EdgeInsets.all(20.0),

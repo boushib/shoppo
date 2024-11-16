@@ -57,7 +57,11 @@ class ProductDetailsScreen extends StatelessWidget {
         ).getProductById(product_id),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            );
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData) {

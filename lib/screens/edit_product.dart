@@ -105,7 +105,9 @@ class EditProductScreenState extends State<EditProductScreen> {
         foregroundColor: Colors.white,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            )
           : Form(
               key: _form,
               child: Padding(
