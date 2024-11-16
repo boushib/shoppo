@@ -48,9 +48,8 @@ class App extends StatelessWidget {
 ThemeData getTheme() {
   return ThemeData(
     primarySwatch: Colors.red,
-    //accentColor: Colors.amber,,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-    fontFamily: 'Open Sans',
+    fontFamily: 'Space Mono',
   );
 }

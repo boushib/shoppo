@@ -16,7 +16,13 @@ class ProductCard extends StatelessWidget {
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black.withOpacity(.8),
-          title: Text(product.title),
+          title: Text(
+            product.title,
+            style: TextStyle(
+              fontFamily:
+                  Theme.of(context).primaryTextTheme.bodyMedium?.fontFamily,
+            ),
+          ),
           leading: IconButton(
             icon: Icon(
               Icons.favorite,
