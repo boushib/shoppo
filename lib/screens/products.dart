@@ -17,7 +17,7 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
-  bool _showFavoritesOnly = false;
+  final bool _showFavoritesOnly = false;
   bool _isInit = false;
   bool _isLoading = false;
 
@@ -56,7 +56,9 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               label: Text(
                 cart.cartItemCount.toString(),
                 style: TextStyle(
-                    fontSize: 14, color: Theme.of(context).primaryColor),
+                  fontSize: 14,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               backgroundColor: Colors.white,
               padding: const EdgeInsets.all(4),
@@ -68,30 +70,17 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               },
             ),
           ),
-          PopupMenuButton(
-            itemBuilder: (_) => [
-              const PopupMenuItem(
-                value: Filter.favorites,
-                child: Text('Favorites'),
-              ),
-              const PopupMenuItem(
-                value: Filter.all,
-                child: Text('All Products'),
-              ),
-            ],
-            icon: const Icon(Icons.more_vert),
-            onSelected: (val) {
-              setState(() {
-                _showFavoritesOnly = val == Filter.favorites;
-              });
-            },
-          ),
+          const SizedBox(width: 20),
         ],
       ),
       drawer: const AppDrawer(),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ProductsOverviewGrid(showFavoritesOnly: _showFavoritesOnly),
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsOverviewGrid(
+              showFavoritesOnly: _showFavoritesOnly,
+            ),
     );
   }
 }
