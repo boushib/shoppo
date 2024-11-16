@@ -15,19 +15,16 @@ class EditProductScreen extends StatefulWidget {
 
 class EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
-  final _descriptionFocusNode = FocusNode();
-  final _productImageController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _brandController = TextEditingController();
+  final _categoryController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _quantityController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _imageController = TextEditingController();
   final _form = GlobalKey<FormState>();
   bool _isInit = false;
   bool _isLoading = false;
-
-  Map<String, String> _initialValues = {
-    "title": "",
-    "description": "",
-    "price": "",
-    "image_url": "",
-  };
-
   Product _product = Product(
     id: "",
     title: "",
@@ -46,19 +43,21 @@ class EditProductScreenState extends State<EditProductScreen> {
     if (!_isInit) {
       final productId = ModalRoute.of(context)!.settings.arguments as String;
       _isInit = true;
-      final productRes = await Provider.of<ProductsProvider>(
+      final product = await Provider.of<ProductsProvider>(
         context,
         listen: false,
       ).getProductById(productId);
-      if (productRes != null) {
-        _product = productRes;
-        _initialValues = {
-          "title": _product.title,
-          "description": _product.description,
-          "price": _product.price.toString(),
-          "image_url": _product.image_url,
-        };
-        _productImageController.text = _product.image_url;
+      if (product != null) {
+        setState(() {
+          _product = product;
+        });
+        _titleController.text = _product.title;
+        _brandController.text = _product.brand;
+        _categoryController.text = _product.category;
+        _priceController.text = _product.price.toString();
+        _quantityController.text = _product.quantity.toString();
+        _descriptionController.text = _product.description;
+        _imageController.text = _product.image_url;
       }
     }
     super.didChangeDependencies();
@@ -66,9 +65,13 @@ class EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void dispose() {
-    _priceFocusNode.dispose();
-    _descriptionFocusNode.dispose();
-    _productImageController.dispose();
+    _titleController.dispose();
+    _brandController.dispose();
+    _categoryController.dispose();
+    _priceController.dispose();
+    _quantityController.dispose();
+    _descriptionController.dispose();
+    _imageController.dispose();
     super.dispose();
   }
 
@@ -110,7 +113,7 @@ class EditProductScreenState extends State<EditProductScreen> {
                   child: Column(
                     children: [
                       FormInput(
-                        initialValue: _initialValues["title"]!,
+                        controller: _titleController,
                         hintText: "Title",
                         onSaved: (value) {
                           _product = _product.copyWith(title: value!);
@@ -123,7 +126,33 @@ class EditProductScreenState extends State<EditProductScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       FormInput(
-                        initialValue: _initialValues["price"]!,
+                        controller: _brandController,
+                        hintText: "Brand",
+                        onSaved: (value) {
+                          _product = _product.copyWith(brand: value!);
+                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Brand is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
+                      ),
+                      const SizedBox(height: 10.0),
+                      FormInput(
+                        controller: _categoryController,
+                        hintText: "Category",
+                        onSaved: (value) {
+                          _product = _product.copyWith(category: value!);
+                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Category is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
+                      ),
+                      const SizedBox(height: 10.0),
+                      FormInput(
+                        controller: _priceController,
                         hintText: "Price",
                         onSaved: (value) {
                           _product = _product.copyWith(
@@ -137,7 +166,21 @@ class EditProductScreenState extends State<EditProductScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       FormInput(
-                        initialValue: _initialValues["description"]!,
+                        controller: _quantityController,
+                        hintText: "Quantity",
+                        onSaved: (value) {
+                          _product = _product.copyWith(
+                              quantity: int.tryParse(value!) ?? 0);
+                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Quantity is required' : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: () => FocusScope.of(context)
+                            .requestFocus(_priceFocusNode),
+                      ),
+                      const SizedBox(height: 10.0),
+                      FormInput(
+                        controller: _descriptionController,
                         maxLines: 4,
                         hintText: "Description",
                         onSaved: (value) {
@@ -151,7 +194,7 @@ class EditProductScreenState extends State<EditProductScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       FormInput(
-                        initialValue: _initialValues["image_url"]!,
+                        controller: _imageController,
                         hintText: "Image URL",
                         onSaved: (value) {
                           _product = _product.copyWith(image_url: value!);

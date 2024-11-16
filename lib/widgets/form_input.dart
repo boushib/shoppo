@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class FormInput extends StatelessWidget {
-  final String initialValue;
+  final String? initialValue;
   final String hintText;
   final FocusNode? focusNode;
+  final TextEditingController? controller;
   final TextInputAction textInputAction;
   final Function(String?) onSaved;
   final String? Function(String?)? validator;
@@ -12,8 +13,9 @@ class FormInput extends StatelessWidget {
   final int maxLines;
 
   const FormInput({
-    required this.initialValue,
+    this.initialValue,
     required this.hintText,
+    this.controller,
     this.focusNode,
     this.textInputAction = TextInputAction.next,
     required this.onSaved,
@@ -29,6 +31,7 @@ class FormInput extends StatelessWidget {
     return TextFormField(
       initialValue: initialValue,
       maxLines: maxLines,
+      controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(fontSize: 16.0),
