@@ -24,7 +24,7 @@ class EditProductScreenState extends State<EditProductScreen> {
     "title": "",
     "description": "",
     "price": "",
-    // "imageUrl": "",
+    "image_url": "",
   };
 
   Product _product = Product(
@@ -32,23 +32,33 @@ class EditProductScreenState extends State<EditProductScreen> {
     title: "",
     description: "",
     price: 0,
-    imageUrl: "",
+    image_url: "",
+    category: "",
+    brand: "",
+    quantity: 0,
+    created_at: "",
+    updated_at: "",
   );
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     if (!_isInit) {
-      final productId = ModalRoute.of(context)!.settings.arguments as String;
+      final product_id = ModalRoute.of(context)!.settings.arguments as String;
       _isInit = true;
-      _product = Provider.of<ProductsProvider>(context, listen: false)
-          .getProductById(productId);
+      final productRes = await Provider.of<ProductsProvider>(
+        context,
+        listen: false,
+      ).getProductById(product_id);
+      if (productRes != null) {
+        _product = productRes;
+      }
       _initialValues = {
         "title": _product.title,
         "description": _product.description,
         "price": _product.price.toString(),
-        // "imageUrl": _product.imageUrl,
+        "image_url": _product.image_url,
       };
-      _productImageController.text = _product.imageUrl;
+      _productImageController.text = _product.image_url;
     }
     super.didChangeDependencies();
   }
@@ -116,8 +126,13 @@ class EditProductScreenState extends State<EditProductScreen> {
                             title: value!,
                             description: _product.description,
                             price: _product.price,
-                            imageUrl: _product.imageUrl,
-                            isFavorite: _product.isFavorite,
+                            image_url: _product.image_url,
+                            category: _product.category,
+                            brand: _product.brand,
+                            quantity: _product.quantity,
+                            created_at: _product.created_at,
+                            updated_at: _product.updated_at,
+                            //isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {
@@ -151,8 +166,13 @@ class EditProductScreenState extends State<EditProductScreen> {
                             title: _product.title,
                             description: _product.description,
                             price: double.parse(value!),
-                            imageUrl: _product.imageUrl,
-                            isFavorite: _product.isFavorite,
+                            image_url: _product.image_url,
+                            category: _product.category,
+                            brand: _product.brand,
+                            quantity: _product.quantity,
+                            created_at: _product.created_at,
+                            updated_at: _product.updated_at,
+                            //isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {
@@ -192,8 +212,13 @@ class EditProductScreenState extends State<EditProductScreen> {
                             title: _product.title,
                             description: value!,
                             price: _product.price,
-                            imageUrl: _product.imageUrl,
-                            isFavorite: _product.isFavorite,
+                            image_url: _product.image_url,
+                            category: _product.category,
+                            brand: _product.brand,
+                            quantity: _product.quantity,
+                            created_at: _product.created_at,
+                            updated_at: _product.updated_at,
+                            //isFavorite: _product.isFavorite,
                           );
                         },
                         validator: (value) {
@@ -253,8 +278,14 @@ class EditProductScreenState extends State<EditProductScreen> {
                                   title: _product.title,
                                   description: _product.description,
                                   price: _product.price,
-                                  imageUrl: value!,
-                                  isFavorite: _product.isFavorite,
+                                  image_url: "", // TODO - Fix
+                                  category: _product.category,
+                                  brand: _product.brand,
+                                  quantity: _product.quantity,
+                                  created_at: _product.created_at,
+                                  updated_at: _product.updated_at,
+                                  // imageUrl: value!,
+                                  // isFavorite: _product.isFavorite,
                                 );
                               },
                               validator: (value) {

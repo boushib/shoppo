@@ -22,7 +22,7 @@ class OrderCardState extends State<OrderCard> {
           ListTile(
             title: Text('Total \$${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: Text(
-                'Ordered at: ${DateFormat("dd MM yyyy hh:mm").format(widget.order.createdAt)}'),
+                'Ordered at: ${DateFormat("dd MM yyyy hh:mm").format(widget.order.created_at)}'),
             trailing: IconButton(
               icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
               onPressed: () {

@@ -24,11 +24,6 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   void initState() {
-    // this won't work
-    // generally all '.of(context)'
-    // set listen to false will work
-    // Provider.of<ProductsProvider>(context).fetchProducts();
-
     super.initState();
   }
 
@@ -54,13 +49,10 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         actions: [
           Consumer<Cart>(
             builder: (_, cart, __) => badges.Badge(
-              badgeContent: Text(cart.cartItemsCount.toString()),
+              badgeContent: Text(cart.cartItemCount.toString()),
             ),
             child: IconButton(
-              icon: const Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
+              icon: const Icon(Icons.shopping_cart, color: Colors.white),
               onPressed: () {
                 Navigator.pushNamed(context, CartScreen.route);
               },
@@ -88,9 +80,7 @@ class ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ),
       drawer: const AppDrawer(),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : ProductsOverviewGrid(showFavoritesOnly: _showFavoritesOnly),
     );
   }

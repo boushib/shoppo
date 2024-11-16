@@ -18,28 +18,17 @@ void main() {
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => ProductsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Cart(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Orders(),
-        ),
+        ChangeNotifierProvider(create: (_) => ProductsProvider()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => Orders()),
       ],
       child: MaterialApp(
         title: 'Shop',
-        theme: ThemeData(
-            primarySwatch: Colors.red,
-            //accentColor: Colors.amber,,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            fontFamily: 'Open Sans'),
+        theme: getTheme(),
         home: const ProductsOverviewScreen(),
         routes: {
           ProductsOverviewScreen.route: (_) => const ProductsOverviewScreen(),
@@ -50,7 +39,18 @@ class App extends StatelessWidget {
           AddProductScreen.route: (_) => const AddProductScreen(),
           EditProductScreen.route: (_) => const EditProductScreen(),
         },
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
+}
+
+ThemeData getTheme() {
+  return ThemeData(
+    primarySwatch: Colors.red,
+    //accentColor: Colors.amber,,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+    fontFamily: 'Open Sans',
+  );
 }

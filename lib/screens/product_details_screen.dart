@@ -9,52 +9,73 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final String productId = ModalRoute.of(context).settings.arguments;
-    const String productId = "123";
-    final product = Provider.of<ProductsProvider>(context, listen: false)
-        .getProductById(productId);
+    final String product_id = ModalRoute.of(
+      context,
+    )?.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: const Text('Product Details'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
-              height: 300.0,
-              width: double.infinity,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+      body: FutureBuilder(
+        future: Provider.of<ProductsProvider>(
+          context,
+          listen: false,
+        ).getProductById(product_id),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('Product not found.'));
+          } else {
+            var product = snapshot.data;
+
+            if (product == null) {
+              return const Text("Product not found!");
+            }
+
+            return SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.title,
-                    style: const TextStyle(
-                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  Image.network(
+                    product.image_url,
+                    fit: BoxFit.cover,
+                    height: 300.0,
+                    width: double.infinity,
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Text('Price: \$${product.price}'),
-                  TextButton(
-                    child: const Text(
-                      'Order Now',
-                      style: TextStyle(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Text('Price: \$${product.price}'),
+                        TextButton(
+                          child: const Text(
+                            'Order Now',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            //
+                          },
+                        )
+                      ],
                     ),
-                    onPressed: () {
-                      //
-                    },
-                    //color: Theme.of(context).primaryColor,
                   )
                 ],
               ),
-            )
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }

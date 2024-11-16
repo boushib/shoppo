@@ -18,7 +18,7 @@ class DashboardProductsScreen extends StatelessWidget {
     final products = Provider.of<ProductsProvider>(context).products;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Products'),
+        title: const Text('My Products'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -39,7 +39,7 @@ class DashboardProductsScreen extends StatelessWidget {
               id: products[i].id,
               title: products[i].title,
               price: products[i].price,
-              image: products[i].imageUrl,
+              image: products[i].image_url,
             ),
           ),
         ),

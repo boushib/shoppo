@@ -4,20 +4,20 @@ import 'package:shop/models/cart.dart';
 
 class CartItemCard extends StatelessWidget {
   final String id;
-  final String productId;
+  final String product_id;
   final String title;
   final int quantity;
   final double total;
-  final String imageUrl;
+  final String image_url;
 
   const CartItemCard({
     super.key,
     required this.id,
-    required this.productId,
+    required this.product_id,
     required this.title,
     required this.quantity,
     required this.total,
-    required this.imageUrl,
+    required this.image_url,
   });
 
   @override
@@ -27,7 +27,7 @@ class CartItemCard extends StatelessWidget {
       key: ValueKey(id),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        cart.removeFromCart(productId);
+        cart.removeFromCart(product_id);
       },
       confirmDismiss: (direction) {
         return showDialog(
@@ -72,7 +72,7 @@ class CartItemCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ListTile(
-            leading: Image.network(imageUrl),
+            leading: Image.network(image_url),
             title: Text(
               title,
               style: const TextStyle(fontSize: 14.0),

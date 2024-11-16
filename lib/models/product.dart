@@ -1,42 +1,43 @@
-import 'dart:convert';
-
+// ignore_for_file: non_constant_identifier_names
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 
 class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
   final double price;
-  final String imageUrl;
-  bool isFavorite;
+  final String image_url;
+  final String category;
+  final String brand;
+  final int quantity;
+  final String created_at;
+  final String updated_at;
 
   Product({
     required this.id,
     required this.title,
     required this.description,
     required this.price,
-    required this.imageUrl,
-    this.isFavorite = false,
+    required this.image_url,
+    required this.category,
+    required this.brand,
+    required this.quantity,
+    required this.created_at,
+    required this.updated_at,
   });
 
-  toggleIsFavorite() async {
-    final url = 'https://flutter-shop-a416a.firebaseio.com/products/$id.json';
-    final oldStatus = isFavorite;
-    isFavorite = !isFavorite;
-    notifyListeners();
-    try {
-      final res = await http.patch(
-        url as Uri,
-        body: json.encode({'isFavorite': isFavorite}),
-      );
-      if (res.statusCode >= 400) {
-        isFavorite = oldStatus;
-        notifyListeners();
-      }
-    } catch (err) {
-      isFavorite = oldStatus;
-      notifyListeners();
-    }
+  factory Product.fromMap(Map<String, dynamic> data) {
+    return Product(
+      id: data["_id"].toHexString() ?? "",
+      title: data["title"] ?? "",
+      description: data["description"] ?? "",
+      price: (data["price"] ?? 0).toDouble(),
+      image_url: data["image_url"] ?? "",
+      category: data["category"] ?? "",
+      brand: data["brand"] ?? "",
+      quantity: data["quantity"] ?? 0,
+      created_at: data["created_at"] ?? "",
+      updated_at: data["updated_at"] ?? "",
+    );
   }
 }

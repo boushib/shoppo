@@ -58,11 +58,11 @@ class CartScreen extends StatelessWidget {
                   final item = cart.cart.values.toList()[i];
                   return CartItemCard(
                     id: item.id,
-                    productId: item.productId,
+                    product_id: item.product_id,
                     title: item.title,
                     quantity: item.quantity,
                     total: item.price * item.quantity,
-                    imageUrl: item.imageUrl,
+                    image_url: item.image_url,
                   );
                 },
               ),

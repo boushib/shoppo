@@ -1,59 +1,56 @@
-import 'package:flutter/foundation.dart';
-import 'package:shop/models/product.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import "package:flutter/foundation.dart";
+import "package:shop/models/product.dart";
+import "package:shop/services/mongo.dart";
 
 class ProductsProvider with ChangeNotifier {
-  final url = 'https://flutter-shop-a416a.firebaseio.com/products.json';
   List<Product> _products = [];
-
   List<Product> get products {
     return [..._products];
   }
 
   List<Product> get favoriteProducts {
-    return _products.where((p) => p.isFavorite).toList();
+    return [];
   }
 
   Future<String> addProduct(Product p) async {
-    var res = await http.post(
-      url as Uri,
-      body: json.encode({
-        'title': p.title,
-        'description': p.description,
-        'price': p.price,
-        'imageUrl': p.imageUrl,
-        'isFavorite': false,
-      }),
-    );
+    // var res = await http.post(
+    //   url as Uri,
+    //   body: json.encode({
+    //     "title": p.title,
+    //     "description": p.description,
+    //     "price": p.price,
+    //     "imageUrl": p.image_url,
+    //     "isFavorite": false,
+    //   }),
+    // );
 
-    Product product = Product(
-      id: json.decode(res.body)['name'],
-      title: p.title,
-      description: p.description,
-      price: p.price,
-      imageUrl: p.imageUrl,
-    );
-    _products.insert(0, product);
+    // Product product = Product(
+    //   id: json.decode(res.body)["name"],
+    //   title: p.title,
+    //   description: p.description,
+    //   price: p.price,
+    //   image_url: p.image_url,
+    //   category: p.category,
+    //   brand: p.brand,
+    //   quantity: p.quantity,
+    //   created_at: p.created_at,
+    //   updated_at: p.updated_at,
+    // );
+    // _products.insert(0, product);
     notifyListeners();
-    return product.id;
+    //return product.id;
+    return "";
   }
 
   Future<void> updateProduct(Product product) async {
     final productIndex = _products.indexWhere((p) => p.id == product.id);
     if (productIndex >= 0) {
-      final url =
-          'https://flutter-shop-a416a.firebaseio.com/products/${product.id}.json';
       try {
-        await http.patch(
-          url as Uri,
-          body: json.encode({
-            'title': product.title,
-            'description': product.description,
-            'price': product.price,
-            'imageUrl': product.imageUrl,
-          }),
-        );
+        await MongoDB.update("products", product.id, {
+          "title": product.title,
+          "description": product.description,
+          "price": product.price,
+        });
         _products[productIndex] = product;
         notifyListeners();
       } catch (err) {
@@ -64,37 +61,25 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String productId) async {
-    final url =
-        'https://flutter-shop-a416a.firebaseio.com/products/$productId.json';
-    await http.delete(url as Uri);
-    // @todo
-    // try optimistic delete/update
-    _products.removeWhere((p) => p.id == productId);
+  void deleteProduct(String product_id) async {
+    await MongoDB.deleteById("products", product_id);
     notifyListeners();
   }
 
-  Product getProductById(id) {
-    return _products.firstWhere((p) => p.id == id);
+  Future<Product?> getProductById(String product_id) async {
+    final productRes = await MongoDB.findById("products", product_id);
+    if (productRes == null) return null;
+    return Product.fromMap({...productRes});
   }
 
   Future<void> fetchProducts() async {
     try {
-      var res = await http.get(url as Uri);
-      final Map<String, dynamic> productsData = json.decode(res.body);
+      final productRes = await MongoDB.find("products");
       List<Product> products = [];
-      productsData.forEach((productId, productData) {
-        products.add(
-          Product(
-            id: productId,
-            title: productData['title'],
-            description: productData['description'],
-            price: productData['price'],
-            imageUrl: productData['imageUrl'],
-            isFavorite: productData['isFavorite'],
-          ),
-        );
-      });
+
+      for (var product in productRes) {
+        products.add(Product.fromMap({...product}));
+      }
       _products = products;
       notifyListeners();
     } catch (err) {

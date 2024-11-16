@@ -20,12 +20,13 @@ class ProductCard extends StatelessWidget {
           leading: IconButton(
             icon: Icon(
               Icons.favorite,
-              color: product.isFavorite
-                  ? Colors.red
-                  : Colors.white.withOpacity(.6),
+              color: Colors.white.withOpacity(.6),
+              // color: product.isFavorite
+              //     ? Colors.red
+              //     : Colors.white.withOpacity(.6),
             ),
             onPressed: () {
-              product.toggleIsFavorite();
+              //product.toggleIsFavorite();
             },
           ),
           trailing: IconButton(
@@ -35,11 +36,11 @@ class ProductCard extends StatelessWidget {
             ),
             onPressed: () {
               cart.addToCart(
-                productId: product.id,
+                product_id: product.id,
                 title: product.title,
                 price: product.price,
                 quantity: 1,
-                imageUrl: product.imageUrl,
+                image_url: product.image_url,
               );
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -58,7 +59,7 @@ class ProductCard extends StatelessWidget {
         ),
         child: GestureDetector(
           child: Image.network(
-            product.imageUrl,
+            product.image_url,
             fit: BoxFit.cover,
           ),
           onTap: () {

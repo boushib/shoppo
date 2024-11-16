@@ -3,6 +3,7 @@ import "package:flutter/foundation.dart";
 import "package:shop/models/cart_item.dart";
 import "package:shop/models/order.dart";
 import "package:http/http.dart" as http;
+import "package:shop/services/mongo.dart";
 
 class Orders with ChangeNotifier {
   List<Order> _orders = [];
@@ -11,36 +12,32 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void addOrder(
-      {required List<CartItem> products, required double total}) async {
-    const url = "https://flutter-shop-a416a.firebaseio.com/orders.json";
-    final createdAt = DateTime.now();
-
+  void addOrder({
+    required List<CartItem> products,
+    required double total,
+  }) async {
     try {
-      final res = await http.post(
-        url as Uri,
-        body: json.encode({
-          "amount": total,
-          "products": products
-              .map((ci) => {
-                    "productId": ci.productId,
-                    "title": ci.title,
-                    "quantity": ci.quantity,
-                    "price": ci.price,
-                    "imageUrl": ci.imageUrl,
-                  })
-              .toList(),
-          "createdAt": createdAt.toIso8601String(),
-        }),
-      );
+      await MongoDB.add("orders", {
+        "amount": total,
+        "products": products
+            .map((product) => {
+                  "product_id": product.id,
+                  "title": product.title,
+                  "quantity": product.quantity,
+                  "price": product.price,
+                  "image_url": product.image_url,
+                })
+            .toList(),
+        "created_at": DateTime.now().toIso8601String(),
+      });
 
-      final order = Order(
-        id: json.decode(res.body)["name"],
-        amount: total,
-        products: products,
-        createdAt: DateTime.now(),
-      );
-      _orders.insert(0, order);
+      // final order = Order(
+      //   id: json.decode(res.body)["name"],
+      //   amount: total,
+      //   products: products,
+      //   createdAt: DateTime.now(),
+      // );
+      // _orders.insert(0, order);
 
       // clear cart
       notifyListeners();
@@ -52,28 +49,26 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchOrders() async {
-    const url = "https://flutter-shop-a416a.firebaseio.com/orders.json";
-    final res = await http.get(url as Uri);
-    final Map<String, dynamic> ordersData = json.decode(res.body);
+    final orderData = await MongoDB.find("orders");
     List<Order> orders = [];
-    ordersData.forEach((orderId, orderData) {
-      List<CartItem> products = (orderData["products"] as List<dynamic>)
+    for (var order in orderData) {
+      List<CartItem> products = (order["products"] as List<dynamic>)
           .map((item) => CartItem(
                 id: "",
-                productId: item["productId"],
+                product_id: item["product_id"],
                 title: item["title"],
                 quantity: item["quantity"],
                 price: item["price"],
-                imageUrl: item["imageUrl"],
+                image_url: item["image_url"],
               ))
           .toList();
       orders.add(Order(
-        id: orderId,
-        amount: orderData["amount"],
+        id: order["_id"],
+        amount: order["amount"],
         products: products,
-        createdAt: DateTime.parse(orderData["createdAt"]),
+        created_at: DateTime.parse(order["created_at"]),
       ));
-    });
+    }
     _orders = orders;
     notifyListeners();
   }
