@@ -147,7 +147,7 @@ class EditProductScreenState extends State<EditProductScreen> {
                       TextFormField(
                         initialValue: _initialValues["price"],
                         decoration: InputDecoration(
-                          hintText: "Product Price",
+                          hintText: "Price",
                           hintStyle: const TextStyle(fontSize: 16.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -199,7 +199,7 @@ class EditProductScreenState extends State<EditProductScreen> {
                         initialValue: _initialValues["description"],
                         maxLines: 3,
                         decoration: InputDecoration(
-                          hintText: "Product Description",
+                          hintText: "Description",
                           hintStyle: const TextStyle(fontSize: 16.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -233,7 +233,7 @@ class EditProductScreenState extends State<EditProductScreen> {
                       TextFormField(
                         controller: _productImageController,
                         decoration: InputDecoration(
-                          hintText: "Product Image",
+                          hintText: "Image URL",
                           hintStyle: const TextStyle(fontSize: 16.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
