@@ -150,23 +150,3 @@ class MongoDB {
     }
   }
 }
-
-// void main() async {
-//   try {
-//     if (products.isNotEmpty) {
-//       final id = products.first['_id'].toHexString();
-//       await MongoDB.update("products", id, {"title": "iPhone 16 Pro Max"});
-//     }
-
-//     if (products.isNotEmpty) {
-//       final id = products.first['_id'].toHexString();
-//       await MongoDB.deleteById("products", id);
-//     }
-//   } catch (e) {
-//     if (kDebugMode) {
-//       print("An error occurred: $e");
-//     }
-//   } finally {
-//     await MongoDB.close();
-//   }
-// }
