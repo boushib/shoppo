@@ -29,7 +29,7 @@ class DashboardProductItem extends StatelessWidget {
             color: Colors.white.withOpacity(0.05),
             child: Image.network(
               image,
-              height: 280,
+              height: 212,
               width: double.infinity,
               fit: BoxFit.contain,
             ),
