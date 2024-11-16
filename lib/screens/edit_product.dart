@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
-import "package:shop/models/product.dart";
-import "package:provider/provider.dart";
-import "package:shop/models/products.dart";
+import 'package:flutter/material.dart';
+import 'package:shop/models/product.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/products.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const route = "edit-product";
@@ -20,7 +20,7 @@ class EditProductScreenState extends State<EditProductScreen> {
   bool _isInit = false;
   bool _isLoading = false;
 
-  Map _initialValues = {
+  Map<String, String> _initialValues = {
     "title": "",
     "description": "",
     "price": "",
@@ -43,22 +43,22 @@ class EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() async {
     if (!_isInit) {
-      final product_id = ModalRoute.of(context)!.settings.arguments as String;
+      final productId = ModalRoute.of(context)!.settings.arguments as String;
       _isInit = true;
       final productRes = await Provider.of<ProductsProvider>(
         context,
         listen: false,
-      ).getProductById(product_id);
+      ).getProductById(productId);
       if (productRes != null) {
         _product = productRes;
+        _initialValues = {
+          "title": _product.title,
+          "description": _product.description,
+          "price": _product.price.toString(),
+          "image_url": _product.image_url,
+        };
+        _productImageController.text = _product.image_url;
       }
-      _initialValues = {
-        "title": _product.title,
-        "description": _product.description,
-        "price": _product.price.toString(),
-        "image_url": _product.image_url,
-      };
-      _productImageController.text = _product.image_url;
     }
     super.didChangeDependencies();
   }
@@ -93,16 +93,14 @@ class EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Edit product",
+          "Edit Product",
           style: TextStyle(fontSize: 20),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : Form(
               key: _form,
               child: Padding(
@@ -112,207 +110,203 @@ class EditProductScreenState extends State<EditProductScreen> {
                     children: [
                       TextFormField(
                         initialValue: _initialValues["title"],
-                        decoration: const InputDecoration(
-                          hintText: "Product Title",
-                          hintStyle: TextStyle(
-                            fontSize: 14.0,
+                        decoration: InputDecoration(
+                          hintText: "Title",
+                          hintStyle: const TextStyle(fontSize: 16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          border: OutlineInputBorder(),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14.0,
+                            horizontal: 16.0,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.03),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .primaryColor, // Change border color when focused
+                              width: 2.0, // Set border width when focused
+                            ),
+                          ),
                         ),
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: const TextStyle(fontSize: 16),
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
                           FocusScope.of(context).requestFocus(_priceFocusNode);
                         },
                         onSaved: (value) {
-                          _product = Product(
-                            id: _product.id,
-                            title: value!,
-                            description: _product.description,
-                            price: _product.price,
-                            image_url: _product.image_url,
-                            category: _product.category,
-                            brand: _product.brand,
-                            quantity: _product.quantity,
-                            created_at: _product.created_at,
-                            updated_at: _product.updated_at,
-                            //isFavorite: _product.isFavorite,
-                          );
+                          _product = _product.copyWith(title: value!);
                         },
-                        validator: (value) {
-                          return null;
-                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Title is required' : null,
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
+                      const SizedBox(height: 10.0),
                       TextFormField(
                         initialValue: _initialValues["price"],
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Product Price",
-                          hintStyle: TextStyle(
-                            fontSize: 14.0,
+                          hintStyle: const TextStyle(fontSize: 16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          border: OutlineInputBorder(),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14.0,
+                            horizontal: 16.0,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.03),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .primaryColor, // Change border color when focused
+                              width: 2.0, // Set border width when focused
+                            ),
+                          ),
                         ),
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: const TextStyle(fontSize: 16),
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         focusNode: _priceFocusNode,
                         onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_descriptionFocusNode);
+                          FocusScope.of(context).requestFocus(
+                            _descriptionFocusNode,
+                          );
                         },
                         onSaved: (value) {
-                          _product = Product(
-                            id: _product.id,
-                            title: _product.title,
-                            description: _product.description,
-                            price: double.parse(value!),
-                            image_url: _product.image_url,
-                            category: _product.category,
-                            brand: _product.brand,
-                            quantity: _product.quantity,
-                            created_at: _product.created_at,
-                            updated_at: _product.updated_at,
-                            //isFavorite: _product.isFavorite,
-                          );
+                          _product =
+                              _product.copyWith(price: double.parse(value!));
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Price field is required";
+                            return "Price is required";
                           }
                           if (double.tryParse(value) == null) {
                             return "Please provide a valid price";
                           }
                           if (double.parse(value) <= 0) {
-                            return "Price should be a positive number";
+                            return "Price should be positive";
                           }
                           return null;
                         },
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
+                      const SizedBox(height: 10.0),
                       TextFormField(
                         initialValue: _initialValues["description"],
                         maxLines: 3,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Product Description",
-                          hintStyle: TextStyle(
-                            fontSize: 14.0,
+                          hintStyle: const TextStyle(fontSize: 16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14.0,
+                            horizontal: 16.0,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.03),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .primaryColor, // Change border color when focused
+                              width: 2.0, // Set border width when focused
+                            ),
+                          ),
                         ),
-                        // textInputAction: TextInputAction.next,
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: const TextStyle(fontSize: 16),
                         keyboardType: TextInputType.multiline,
                         focusNode: _descriptionFocusNode,
                         onSaved: (value) {
-                          _product = Product(
-                            id: _product.id,
-                            title: _product.title,
-                            description: value!,
-                            price: _product.price,
-                            image_url: _product.image_url,
-                            category: _product.category,
-                            brand: _product.brand,
-                            quantity: _product.quantity,
-                            created_at: _product.created_at,
-                            updated_at: _product.updated_at,
-                            //isFavorite: _product.isFavorite,
-                          );
+                          _product = _product.copyWith(description: value!);
+                        },
+                        validator: (value) =>
+                            value!.isEmpty ? 'Description is required' : null,
+                      ),
+                      const SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: _productImageController,
+                        decoration: InputDecoration(
+                          hintText: "Product Image",
+                          hintStyle: const TextStyle(fontSize: 16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14.0,
+                            horizontal: 16.0,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.03),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .primaryColor, // Change border color when focused
+                              width: 2.0, // Set border width when focused
+                            ),
+                          ),
+                        ),
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: const TextStyle(fontSize: 16),
+                        keyboardType: TextInputType.url,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) => submitForm(),
+                        onSaved: (value) {
+                          _product = _product.copyWith(image_url: value!);
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Description field is required";
+                            return "Image URL is required";
                           }
                           return null;
                         },
                       ),
+                      const SizedBox(height: 24.0),
                       Row(
                         children: [
-                          Container(
-                            height: 100.0,
-                            width: 100.0,
-                            margin:
-                                const EdgeInsets.only(top: 10.0, right: 10.0),
-                            // padding: EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.0,
-                                color: Colors.grey,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4.0)),
-                            ),
-                            child: _productImageController.text.isEmpty
-                                ? const Center(
-                                    child: Text(
-                                      "Please enter an image URL!",
-                                    ),
-                                  )
-                                : Image.network(
-                                    _productImageController.text,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              // you can"t use both initialValue & controller
-                              // initialValue: _initialValues["imageUrl"],
-                              decoration: const InputDecoration(
-                                hintText: "Product Image",
-                                hintStyle: TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                border: OutlineInputBorder(),
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 16.0),
-                              ),
-                              keyboardType: TextInputType.url,
-                              textInputAction: TextInputAction.done,
-                              controller: _productImageController,
-                              onFieldSubmitted: (_) => submitForm(),
-                              onSaved: (value) {
-                                _product = Product(
-                                  id: _product.id,
-                                  title: _product.title,
-                                  description: _product.description,
-                                  price: _product.price,
-                                  image_url: "", // TODO - Fix
-                                  category: _product.category,
-                                  brand: _product.brand,
-                                  quantity: _product.quantity,
-                                  created_at: _product.created_at,
-                                  updated_at: _product.updated_at,
-                                  // imageUrl: value!,
-                                  // isFavorite: _product.isFavorite,
-                                );
-                              },
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Description field is required";
-                                }
-                                return null;
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                      OverflowBar(
-                        children: [
-                          TextButton(
-                            child: const Text("Cancel"),
-                            onPressed: () {},
-                          ),
                           ElevatedButton(
-                            //color: Colors.green,
-                            child: const Text("Save"),
-                            onPressed: () => submitForm(),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 16,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 16,
+                              ),
+                            ),
+                            onPressed: submitForm,
+                            child: const Text(
+                              'Save',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       )

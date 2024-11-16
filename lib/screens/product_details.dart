@@ -130,7 +130,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fontSize: 16,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

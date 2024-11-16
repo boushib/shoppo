@@ -40,4 +40,30 @@ class Product with ChangeNotifier {
       updated_at: data["updated_at"] ?? "",
     );
   }
+
+  Product copyWith({
+    String? id,
+    String? title,
+    String? description,
+    double? price,
+    String? image_url,
+    String? category,
+    String? brand,
+    int? quantity,
+    String? created_at,
+    String? updated_at,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      image_url: image_url ?? this.image_url,
+      category: category ?? this.category,
+      brand: brand ?? this.brand,
+      quantity: quantity ?? this.quantity,
+      created_at: created_at ?? this.created_at,
+      updated_at: updated_at ?? this.updated_at,
+    );
+  }
 }

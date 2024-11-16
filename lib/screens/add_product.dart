@@ -15,7 +15,7 @@ class AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add a new product',
+          'New Product',
           style: TextStyle(fontSize: 20),
         ),
       ),
