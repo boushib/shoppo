@@ -35,8 +35,8 @@ class EditProductScreenState extends State<EditProductScreen> {
     category: "",
     brand: "",
     quantity: 0,
-    created_at: "",
-    updated_at: "",
+    created_at: DateTime.now(),
+    updated_at: DateTime.now(),
   );
 
   @override

@@ -4,7 +4,6 @@ import 'package:shop/models/cart.dart';
 
 class CartItemCard extends StatelessWidget {
   final String id;
-  final String product_id;
   final String title;
   final int quantity;
   final double total;
@@ -13,7 +12,6 @@ class CartItemCard extends StatelessWidget {
   const CartItemCard({
     super.key,
     required this.id,
-    required this.product_id,
     required this.title,
     required this.quantity,
     required this.total,
@@ -28,7 +26,7 @@ class CartItemCard extends StatelessWidget {
       key: ValueKey(id),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        cart.removeFromCart(product_id);
+        cart.removeFromCart(id);
       },
       background: Container(
         color: Theme.of(context).primaryColor,
@@ -42,7 +40,7 @@ class CartItemCard extends StatelessWidget {
       ),
       child: Consumer<Cart>(
         builder: (ctx, cart, child) {
-          return cart.cart.containsKey(product_id)
+          return cart.cart.containsKey(id)
               ? Card(
                   color: Colors.white.withOpacity(.04),
                   margin: const EdgeInsets.symmetric(

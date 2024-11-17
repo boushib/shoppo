@@ -10,8 +10,8 @@ class Product with ChangeNotifier {
   final String category;
   final String brand;
   final int quantity;
-  final String created_at;
-  final String updated_at;
+  final DateTime created_at;
+  final DateTime updated_at;
 
   Product({
     required this.id,
@@ -28,7 +28,7 @@ class Product with ChangeNotifier {
 
   factory Product.fromMap(Map<String, dynamic> data) {
     return Product(
-      id: data["_id"].toHexString() ?? "",
+      id: data["id"] ?? "",
       title: data["title"] ?? "",
       description: data["description"] ?? "",
       price: (data["price"] ?? 0).toDouble(),
@@ -36,9 +36,26 @@ class Product with ChangeNotifier {
       category: data["category"] ?? "",
       brand: data["brand"] ?? "",
       quantity: data["quantity"] ?? 0,
-      created_at: data["created_at"] ?? "",
-      updated_at: data["updated_at"] ?? "",
+      created_at:
+          DateTime.parse(data["created_at"] ?? DateTime.now().toString()),
+      updated_at:
+          DateTime.parse(data["updated_at"] ?? DateTime.now().toString()),
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "title": title,
+      "description": description,
+      "price": price,
+      "image_url": image_url,
+      "category": category,
+      "brand": brand,
+      "quantity": quantity,
+      "created_at": created_at,
+      "updated_at": updated_at,
+    };
   }
 
   Product copyWith({
@@ -50,8 +67,8 @@ class Product with ChangeNotifier {
     String? category,
     String? brand,
     int? quantity,
-    String? created_at,
-    String? updated_at,
+    DateTime? created_at,
+    DateTime? updated_at,
   }) {
     return Product(
       id: id ?? this.id,

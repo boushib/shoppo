@@ -54,7 +54,6 @@ class CartScreen extends StatelessWidget {
                   final item = cart.cart.values.toList()[i];
                   return CartItemCard(
                     id: item.id,
-                    product_id: item.product_id,
                     title: item.title,
                     quantity: item.quantity,
                     total: item.price * item.quantity,
@@ -101,7 +100,7 @@ class OrderButtonState extends State<OrderButton> {
 
         Provider.of<Orders>(context, listen: false).addOrder(
           products: widget.cart.cart.values.toList(),
-          total: widget.cart.total,
+          amount: widget.cart.total,
         );
 
         setState(() {

@@ -78,7 +78,7 @@ class ProductCard extends StatelessWidget {
                           icon: Icons.shopping_bag,
                           onPressed: () {
                             cart.addToCart(
-                              product_id: product.id,
+                              id: product.id,
                               title: product.title,
                               price: product.price,
                               quantity: 1,

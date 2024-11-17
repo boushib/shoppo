@@ -12,4 +12,16 @@ class Order {
     required this.products,
     required this.created_at,
   });
+
+  factory Order.fromMap(Map<String, dynamic> data) {
+    return Order(
+      id: data["id"] ?? "",
+      amount: data["amount"] ?? 0.0,
+      products: List<CartItem>.from(
+        (data["products"] as List).map((product) => CartItem.fromMap(product)),
+      ),
+      created_at:
+          DateTime.parse(data["created_at"] ?? DateTime.now().toString()),
+    );
+  }
 }

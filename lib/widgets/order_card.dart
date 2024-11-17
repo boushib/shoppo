@@ -17,7 +17,7 @@ class OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     final amount = widget.order.amount.toStringAsFixed(2);
     final items = widget.order.products;
-    final orderedAt = DateFormat("dd MM yyyy hh:mm").format(
+    final orderedAt = DateFormat("MMM dd, yyyy 'at' hh:mm").format(
       widget.order.created_at,
     );
     return Card(

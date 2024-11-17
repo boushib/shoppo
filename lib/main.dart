@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/orders.dart';
 import 'package:shop/models/products.dart';
@@ -11,7 +12,9 @@ import 'package:shop/screens/product_details.dart';
 import 'package:shop/screens/products.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   runApp(const App());
 }
 

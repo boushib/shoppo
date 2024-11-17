@@ -4,24 +4,31 @@ import 'package:shop/models/products.dart';
 import 'package:shop/widgets/product_card.dart';
 import 'package:provider/provider.dart';
 
-class ProductsOverviewGrid extends StatelessWidget {
-  final bool showFavoritesOnly;
-  const ProductsOverviewGrid({super.key, this.showFavoritesOnly = false});
+class ProductGrid extends StatelessWidget {
+  const ProductGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
-    final List<Product> products = showFavoritesOnly
-        ? productsProvider.favoriteProducts
-        : productsProvider.products;
+    final List<Product> products = productsProvider.products;
+
+    if (products.isEmpty) {
+      return const Center(
+        child: Text(
+          "No Products found!",
+          style: TextStyle(fontSize: 18),
+        ),
+      );
+    }
+
     return GridView.builder(
       padding: const EdgeInsets.all(20.0),
       itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1, crossAxisSpacing: 16.0, mainAxisSpacing: 16.0),
-      // use the .value approach
-      // if you're not instantiating a new object
-      // but instead using an existing one
+        crossAxisCount: 1,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,
+      ),
       itemBuilder: (_, i) => ChangeNotifierProvider.value(
         value: products[i],
         child: const ProductCard(),

@@ -11,15 +11,16 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String product_id =
-        ModalRoute.of(context)?.settings.arguments as String;
+    final String productId = ModalRoute.of(
+      context,
+    )?.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
         title: Consumer<ProductsProvider>(
           builder: (ctx, productsProvider, _) {
             return FutureBuilder(
-              future: productsProvider.getProductById(product_id),
+              future: productsProvider.getProductById(productId),
               builder: (ctx, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text(
@@ -34,7 +35,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 } else if (!snapshot.hasData) {
                   return const Text(
                     'Product not found',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   );
                 } else {
                   var product = snapshot.data;
@@ -54,7 +55,7 @@ class ProductDetailsScreen extends StatelessWidget {
         future: Provider.of<ProductsProvider>(
           context,
           listen: false,
-        ).getProductById(product_id),
+        ).getProductById(productId),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -65,12 +66,20 @@ class ProductDetailsScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData) {
-            return const Center(child: Text('Product not found.'));
+            return const Center(
+              child: Text(
+                'Product not found.',
+                style: TextStyle(fontSize: 18),
+              ),
+            );
           } else {
             var product = snapshot.data;
 
             if (product == null) {
-              return const Text("Product not found!");
+              return const Text(
+                "Product not found!",
+                style: TextStyle(fontSize: 18),
+              );
             }
 
             return SingleChildScrollView(

@@ -20,7 +20,7 @@ class OrderScreenState extends State<OrderScreen> {
   void initState() {
     _isLoading = true;
     Provider.of<Orders>(context, listen: false)
-        .fetchOrders()
+        .getOrders()
         .then((_) => setState(() => _isLoading = false));
     super.initState();
   }

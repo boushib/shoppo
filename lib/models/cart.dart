@@ -22,18 +22,17 @@ class Cart with ChangeNotifier {
   }
 
   void addToCart({
-    required String product_id,
+    required String id,
     required String title,
     required double price,
     required int quantity,
     required String image_url,
   }) {
-    if (_cart.containsKey(product_id)) {
+    if (_cart.containsKey(id)) {
       _cart.update(
-        product_id,
+        id,
         (oldItem) => CartItem(
           id: oldItem.id,
-          product_id: oldItem.product_id,
           title: oldItem.title,
           quantity: oldItem.quantity + quantity,
           price: oldItem.price,
@@ -42,10 +41,9 @@ class Cart with ChangeNotifier {
       );
     } else {
       _cart.putIfAbsent(
-        product_id,
+        id,
         () => CartItem(
-          id: DateTime.now().toString(),
-          product_id: product_id,
+          id: id,
           title: title,
           quantity: quantity,
           price: price,
@@ -56,29 +54,28 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeFromCart(String product_id) {
-    if (_cart.containsKey(product_id)) {
-      _cart.remove(product_id);
+  void removeFromCart(String productId) {
+    if (_cart.containsKey(productId)) {
+      _cart.remove(productId);
       notifyListeners();
     }
   }
 
-  void removeSingleItemFromCart(String product_id) {
-    if (_cart.containsKey(product_id)) {
-      if (_cart[product_id]!.quantity > 1) {
+  void removeSingleItemFromCart(String productId) {
+    if (_cart.containsKey(productId)) {
+      if (_cart[productId]!.quantity > 1) {
         _cart.update(
-          product_id,
+          productId,
           (oldItem) => CartItem(
             id: oldItem.id,
-            product_id: oldItem.product_id,
-            title: oldItem.product_id,
+            title: oldItem.title,
             quantity: oldItem.quantity - 1,
             price: oldItem.price,
             image_url: oldItem.image_url,
           ),
         );
       } else {
-        _cart.remove(product_id);
+        _cart.remove(productId);
       }
       notifyListeners();
     }

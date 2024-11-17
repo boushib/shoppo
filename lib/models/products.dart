@@ -1,6 +1,8 @@
+import "dart:convert";
 import "package:flutter/foundation.dart";
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import "package:shop/models/product.dart";
-import "package:shop/services/mongo.dart";
 
 class ProductsProvider with ChangeNotifier {
   List<Product> _products = [];
@@ -12,75 +14,71 @@ class ProductsProvider with ChangeNotifier {
     return [];
   }
 
-  Future<String> addProduct(Product p) async {
-    // var res = await http.post(
-    //   url as Uri,
-    //   body: json.encode({
-    //     "title": p.title,
-    //     "description": p.description,
-    //     "price": p.price,
-    //     "imageUrl": p.image_url,
-    //     "isFavorite": false,
-    //   }),
-    // );
-
-    // Product product = Product(
-    //   id: json.decode(res.body)["name"],
-    //   title: p.title,
-    //   description: p.description,
-    //   price: p.price,
-    //   image_url: p.image_url,
-    //   category: p.category,
-    //   brand: p.brand,
-    //   quantity: p.quantity,
-    //   created_at: p.created_at,
-    //   updated_at: p.updated_at,
-    // );
-    // _products.insert(0, product);
+  Future<void> addProduct(Product product) async {
+    final baseURI = dotenv.env["BASE_URL"];
+    final res = await http.post(
+      Uri.parse("$baseURI/products"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(product.toMap()),
+    );
+    _products.add(Product.fromMap(jsonDecode(res.body)));
     notifyListeners();
-    //return product.id;
-    return "";
   }
 
   Future<void> updateProduct(Product product) async {
-    final productIndex = _products.indexWhere((p) => p.id == product.id);
-    if (productIndex >= 0) {
-      try {
-        await MongoDB.update("products", product.id, {
-          "title": product.title,
-          "description": product.description,
-          "price": product.price,
-        });
-        _products[productIndex] = product;
-        notifyListeners();
-      } catch (err) {
-        if (kDebugMode) {
-          print(err);
-        }
+    try {
+      final baseURI = dotenv.env["BASE_URL"];
+      await http.patch(
+        Uri.parse("$baseURI/products/${product.id}"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(product.toMap()),
+      );
+      final index = _products.indexWhere((product) => product.id == product.id);
+      _products[index] = product;
+      notifyListeners();
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
       }
     }
   }
 
-  void deleteProduct(String product_id) async {
-    await MongoDB.deleteById("products", product_id);
-    notifyListeners();
-  }
-
-  Future<Product?> getProductById(String product_id) async {
-    final productRes = await MongoDB.findById("products", product_id);
-    if (productRes == null) return null;
-    return Product.fromMap({...productRes});
-  }
-
-  Future<void> fetchProducts() async {
+  Future<void> deleteProduct(String productId) async {
     try {
-      final productRes = await MongoDB.find("products");
-      List<Product> products = [];
-
-      for (var product in productRes) {
-        products.add(Product.fromMap({...product}));
+      final baseURI = dotenv.env["BASE_URL"];
+      await http.delete(Uri.parse("$baseURI/products/$productId"));
+      final index = _products.indexWhere((product) => product.id == productId);
+      _products.removeAt(index);
+      notifyListeners();
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
       }
-      _products = products;
+    }
+  }
+
+  Future<Product?> getProductById(String productId) async {
+    try {
+      final baseURI = dotenv.env["BASE_URL"];
+      final res = await http.get(Uri.parse("$baseURI/products/$productId"));
+      return Product.fromMap(jsonDecode(res.body));
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      return null;
+    }
+  }
+
+  Future<void> getProducts() async {
+    try {
+      final baseURI = dotenv.env["BASE_URL"];
+      final res = await http.get(Uri.parse("$baseURI/products"));
+      _products = List<Product>.from(
+        jsonDecode(res.body)["products"].map(
+          (product) => Product.fromMap(product),
+        ),
+      );
       notifyListeners();
     } catch (err) {
       if (kDebugMode) {
